@@ -3,20 +3,23 @@ const app = express();
 const bodyParser = require('body-parser');
 const db = require('./controllers');
 const port = 8000;
+const cors = require('cors');
 require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors('*'));
 
 app.get('/', (req, res) => {
   res.json({ info: 'Node.js, Express, and Postgres API' });
 });
 
 app.get('/channels', db.getChannels);
-// app.get('/channel/:id', db.getChannelById);
-app.post('/channel', db.createChannel);
-// app.put('/channel/:id', db.updateChannel);
-// app.delete('/channel/:id', db.deleteChannel);
+// app.get('/channels/:id', db.getChannelById);
+app.post('/channels', db.createChannel);
+// app.put('/channels/:id', db.updateChannel);
+// app.delete('/channels/:id', db.deleteChannel);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
