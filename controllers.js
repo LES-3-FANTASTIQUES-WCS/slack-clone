@@ -10,7 +10,6 @@ const createChannel = async (req, res) => {
   const { name } = req.body;
 
   const channelId = await services.createChannelAndGetId(name);
-  console.log('toto', channelId);
 
   return res.status(201).send(`Channel added with ID: ${channelId}`);
 };
