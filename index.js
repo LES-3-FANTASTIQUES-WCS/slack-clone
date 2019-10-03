@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const channelsRoute = require('./channels');
 const connection = require('./db_pool');
 require('dotenv').config();
 
