@@ -1,11 +1,20 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-require("dotenv").config();
+const bodyParser = require('body-parser');
+const db = require('./controllers');
+const port = 8000;
+require('dotenv').config();
 
-app.get("/", function(req, res) {
-  res.send("Hello W!");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.json({ info: 'Node.js, Express, and Postgres API' });
 });
 
-app.listen(8000, function() {
-  console.log("Example app listening on port 8000!");
+app.get('/channels', db.getChannels);
+app.post('/channels', db.createChannel);
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`);
 });
