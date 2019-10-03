@@ -1,4 +1,5 @@
 const dataAccess = require('./data-access');
+const services = require('./services');
 
 const getChannels = async (_req, res) => {
   const channels = await dataAccess.getChannels();
@@ -6,9 +7,12 @@ const getChannels = async (_req, res) => {
 };
 
 const createChannel = async (req, res) => {
-  const channel = await dataAccess.createChannel();
+  const { name } = req.body;
 
-  return res.status(201).send(`Channel added with ID: ${channel.id}`);
+  const channelId = await services.createChannelAndGetId(name);
+  console.log('toto', channelId);
+
+  return res.status(201).send(`Channel added with ID: ${channelId}`);
 };
 
 module.exports = {
