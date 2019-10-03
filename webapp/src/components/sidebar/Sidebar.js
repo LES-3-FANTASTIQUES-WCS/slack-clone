@@ -22,7 +22,7 @@ class Side extends React.Component {
   handleClose = () => this.setState({ modalOpen: false });
 
   componentDidMount() {
-      //call function to hide sidebar 
+    //call function to hide sidebar
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
 
@@ -36,6 +36,17 @@ class Side extends React.Component {
       });
   }
 
+  addChannels() {
+    fetch('http://localhost:8000/channels', {
+      method: 'post',
+      body:JSON.stringify({
+        name: 'team-tech'
+      })
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err));
+  }
+
   //hide sidebar
   resize() {
     if (window.innerWidth <= 768) {
@@ -44,21 +55,6 @@ class Side extends React.Component {
       this.setState({ isVisible: true });
     }
   }
-
-  //   listChannels() {
-  //     let channels = this.state.channels;
-  //     return (
-  //       <div>
-  //         {channels.map((val, index) => {
-  //           return (
-  //             <Menu.Item onClick={this.getMessage} key={index}>
-  //               {val}
-  //             </Menu.Item>
-  //           );
-  //         })}
-  //       </div>
-  //     );
-  //   }
 
   render() {
     return (
@@ -120,7 +116,7 @@ class Side extends React.Component {
             </Menu.Item>
             <div>
               {this.state.channels.map(channels => (
-                <Menu.Item onClick={this.getMessage} key={channels.id}>
+                <Menu.Item onClick={this.addChannels} key={channels.id}>
                   # {channels.name}
                 </Menu.Item>
               ))}
