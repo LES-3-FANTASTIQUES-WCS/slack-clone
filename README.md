@@ -9,3 +9,5 @@ How to execute migrations :
 ```
 npx db-migrate up
 ```
+
+Don't forget to create a .env file to connect to your DB.
