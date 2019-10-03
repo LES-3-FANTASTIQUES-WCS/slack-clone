@@ -18,3 +18,5 @@ app.post('/channels', db.createChannel);
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
+
+module.exports = app;
