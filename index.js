@@ -13,10 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/channels', db.getChannels);
-// app.get('/channels/:id', db.getChannelById);
 app.post('/channels', db.createChannel);
-// app.put('/channels/:id', db.updateChannel);
-// app.delete('/channels/:id', db.deleteChannel);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
