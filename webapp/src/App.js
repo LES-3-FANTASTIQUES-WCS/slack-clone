@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Link } from 'react-router-dom';
+import { ChannelList, ChannelListItem } from './App.styled';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isLoading: true,
+    channels: [],
+  };
+
+  async componentDidMount() {
+    const response = await fetch('/channels');
+    const { channels } = await response.json();
+
+    // same as:
+    // const channels = (await response.json()).channels;
+
+    this.setState({ channels, isLoading: false });
+  }
+
+  // using promises:
+
+  // componentDidMount() {
+  //   fetch('/channels')
+  //     .then(response => {
+  //       return response.json();
+  //     })
+  //     .then(({ channels }) => {
+  //       this.setState({ channels, isLoading: false });
+  //     });
+  // }
+
+  render() {
+    if (this.state.isLoading) {
+      return <div>Loading…</div>;
+    }
+    return (
+      <ChannelList>
+        {this.state.channels.map(channel => (
+          <ChannelListItem key={channel.id}>{channel.name}</ChannelListItem>
+        ))}
+      </ChannelList>
+    );
+  }
 }
 
 export default App;
