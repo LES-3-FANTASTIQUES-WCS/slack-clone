@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
+
+import MessageList from './MessageList';
 import { ChannelList, ChannelListItem } from './App.styled';
 
 class App extends React.Component {
@@ -9,7 +11,7 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('/channels');
+    const response = await fetch('/api/channels');
     const { channels } = await response.json();
 
     // same as:
@@ -35,11 +37,25 @@ class App extends React.Component {
       return <div>Loading…</div>;
     }
     return (
-      <ChannelList>
-        {this.state.channels.map(channel => (
-          <ChannelListItem key={channel.id}>{channel.name}</ChannelListItem>
-        ))}
-      </ChannelList>
+      <>
+        <ChannelList>
+          {this.state.channels.map(channel => (
+            <ChannelListItem key={channel.id}>
+              <Link to={`/channels/${channel.id}/messages`}>
+                {channel.name}
+              </Link>
+            </ChannelListItem>
+          ))}
+        </ChannelList>
+        <Switch>
+          <Route
+            path="/channels/:channelId/messages"
+            render={props => (
+              <MessageList channelId={props.match.params.channelId} />
+            )}
+          />
+        </Switch>
+      </>
     );
   }
 }

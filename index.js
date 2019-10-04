@@ -2,24 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 
-app.get('/', function(req, res) {
-  res.send('Hello W!');
-});
+const routes = require('./routes');
 
-app.get('/channels', (req, res) => {
-  res.status(200).json({
-    channels: [
-      {
-        id: 'abc',
-        name: 'general',
-      },
-      {
-        id: 'def',
-        name: 'random',
-      },
-    ],
-  });
-});
+app.use('/api', routes);
 
 app.listen(8000, function() {
   console.log('Example app listening on port 8000!');
