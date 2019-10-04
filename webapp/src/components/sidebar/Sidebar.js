@@ -15,6 +15,7 @@ class Side extends React.Component {
     channels: [],
     isVisible: true,
     modalOpen: false,
+    name: ''
   };
 
   handleOpen = () => this.setState({ modalOpen: true });
@@ -26,25 +27,25 @@ class Side extends React.Component {
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
 
+    // this.addChannels();
     //get channels from server
-    fetch('http://localhost:8000/channels')
+    fetch('/channels')
       .then(res => {
         return res.json();
       })
       .then(channels => {
-        this.setState({ channels: channels.rows });
+        console.log(123, channels);
+        this.setState({ channels: channels.channels });
       });
   }
 
   addChannels() {
-    fetch('http://localhost:8000/channels', {
+    fetch('/channels', {
       method: 'post',
-      body:JSON.stringify({
-        name: 'team-tech'
-      })
-    }).then((res) => res.json())
-    .then((data) =>  console.log(data))
-    .catch((err)=>console.log(err));
+      body:{
+        name : this.state.name,
+      },
+    })
   }
 
   //hide sidebar
@@ -98,14 +99,14 @@ class Side extends React.Component {
                           <Form>
                             <Form.Field>
                               <label>Nom de la chaîne</label>
-                              <input />
+                              <input className="form-control" name={this.state.name}/>
                             </Form.Field>
                             <Form.Field>
                               <label>But de la chaîne</label>
-                              <input />
+                              <input/>
                             </Form.Field>
                             <Button onClick={this.handleClose}>Annuler</Button>
-                            <Button type="submit">Créer la chaîne</Button>
+                            <Button type="submit" onClick={this.addChannels}>Créer la chaîne</Button>
                           </Form>
                         </Modal.Description>
                       </Modal.Content>
@@ -116,9 +117,7 @@ class Side extends React.Component {
             </Menu.Item>
             <div>
               {this.state.channels.map(channels => (
-                <Menu.Item onClick={this.addChannels} key={channels.id}>
-                  # {channels.name}
-                </Menu.Item>
+                <Menu.Item key={channels.id}># {channels.name}</Menu.Item>
               ))}
             </div>
             {/* {this.listChannels()} */}
