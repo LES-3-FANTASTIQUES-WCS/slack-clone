@@ -1,8 +1,9 @@
 const express = require('express');
 
 const app = express();
+
 const bodyParser = require('body-parser');
-const db = require('./controllers');
+const routes = require('./routes');
 
 const port = 8000;
 require('dotenv').config();
@@ -10,14 +11,7 @@ require('dotenv').config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.json({ info: 'Node.js, Express, and Postgres API' });
-});
-
-app.get('/channels', db.getChannels);
-app.post('/channels', db.createChannel);
-app.get('/channels/:channelId/messages', db.getMessagesByChannelId);
-app.post('/channels/:channelId/messages', db.createMessage);
+app.use('/api', routes);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
