@@ -16,7 +16,7 @@ export default () => (
       channels={[{ id: 1, name: 'general' }, { id: 2, name: 'random' }]}
       users={[{ id: 1, name: 'slackbot' }, { id: 2, name: 'user1' }]}
     />
-    <Header channelName="general" />>
+    <Header channelName="general" />
     <Messages
       messages={[
         { id: 1, username: 'Helder', text: 'Hello Valentine' },
