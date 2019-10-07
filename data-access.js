@@ -27,7 +27,7 @@ const createChannel = name => {
 
 const getMessagesByChannel = async channelId => {
   const messages = await pool.query(
-    'SELECT * FROM message WHERE channel_id = $1 ORDER BY created_At ASC',
+    'SELECT * FROM message WHERE channel_id = $1 ORDER BY created_At ASC LIMIT 5',
     [channelId]
   );
 
