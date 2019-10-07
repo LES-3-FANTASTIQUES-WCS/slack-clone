@@ -13,24 +13,8 @@ class App extends React.Component {
   async componentDidMount() {
     const response = await fetch('/api/channels');
     const { channels } = await response.json();
-
-    // same as:
-    // const channels = (await response.json()).channels;
-
     this.setState({ channels, isLoading: false });
   }
-
-  // using promises:
-
-  // componentDidMount() {
-  //   fetch('/channels')
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(({ channels }) => {
-  //       this.setState({ channels, isLoading: false });
-  //     });
-  // }
 
   render() {
     if (this.state.isLoading) {
