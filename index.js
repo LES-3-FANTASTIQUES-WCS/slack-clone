@@ -4,6 +4,7 @@ const db = require('./controllers');
 
 const app = express();
 const port = 8000;
+
 require('dotenv').config();
 
 app.use(bodyParser.json());
