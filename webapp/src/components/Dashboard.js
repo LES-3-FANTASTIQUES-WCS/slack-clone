@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Channels from './Channels';
-import Teams from './styles/Teams';
+import { TeamWrapper } from './styles/Teams';
 import Header from './Header';
 import Messages from './MessagesList';
 import SendMessage from './SendMessage';
@@ -9,7 +9,7 @@ import AppLayout from './styles/AppLayout';
 
 export default () => (
   <AppLayout>
-    <Teams>Teams</Teams>
+    <TeamWrapper>Teams</TeamWrapper>
     <Channels
       teamName="Team name"
       userName="Username"
