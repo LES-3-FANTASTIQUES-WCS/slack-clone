@@ -1,7 +1,9 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const db = require('./controllers');
+
 const port = 8000;
 require('dotenv').config();
 
@@ -14,6 +16,8 @@ app.get('/', (req, res) => {
 
 app.get('/channels', db.getChannels);
 app.post('/channels', db.createChannel);
+app.get('/channels/:channelId/messages', db.getMessagesByChannelId);
+app.post('/channels/:channelId/messages', db.createMessage);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
