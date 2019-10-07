@@ -3,7 +3,7 @@ import { Comment } from 'semantic-ui-react';
 
 import { MessageWrapper } from './styles/MessagesList';
 
-class MessagesList extends React.Component {
+class MessageList extends React.Component {
   state = {
     channelId: this.props.channelId,
     isLoading: true,
@@ -19,6 +19,7 @@ class MessagesList extends React.Component {
       `/api/channels/${this.props.channelId}/messages`
     );
     const { messages } = await response.json();
+
     this.setState({
       isLoading: false,
       messages,
@@ -51,7 +52,7 @@ class MessagesList extends React.Component {
     return (
       <MessageWrapper>
         <Comment.Group>
-          {messages.map(message => (
+          {this.state.messages.map(message => (
             <Comment key={`${message.id}-message`}>
               <Comment.Avatar as="a" src="https://picsum.photos/200" />
               <Comment.Content>
@@ -71,3 +72,5 @@ class MessagesList extends React.Component {
     );
   }
 }
+
+export default MessageList;
