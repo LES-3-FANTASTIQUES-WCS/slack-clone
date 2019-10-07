@@ -15,10 +15,20 @@
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",
     "dotenv": "^8.1.0",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-react-hooks": "^2.1.2",
     "express": "^4.17.1",
     "pg": "^7.12.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.15.1",
     "nodemon": "^1.19.3",
     "prettier": "^1.18.2",
     "prettierrc": "0.0.0-5"
