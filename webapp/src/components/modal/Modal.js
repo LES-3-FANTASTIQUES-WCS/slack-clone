@@ -16,7 +16,7 @@ class AddModal extends React.Component {
 
   handleOpen = () => this.setState({ modalOpen: true });
 
-  handleClose = () => this.setState({ modalOpen: false});
+  handleClose = () => this.setState({ modalOpen: false });
 
   handleName(event) {
     this.setState({ name: event.target.value });
@@ -27,18 +27,20 @@ class AddModal extends React.Component {
   }
 
   //post new channel to server
-  addChannels(channelsName, text) {
+  addChannels(channelsName) {
+    console.log('work');
     fetch('/channels', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name: channelsName, textGoal: text }),
+      body: JSON.stringify({ name: channelsName }),
     }).then(() => {
+      console.log('work again');
       this.props.getChannels();
       this.setState({ name: '', text: '' });
+      this.handleClose();
     });
-    this.handleClose();
   }
 
   render() {
@@ -60,11 +62,7 @@ class AddModal extends React.Component {
           <Modal.Header>Créer une chaîne de discussion</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <Form
-                onSubmit={() =>
-                  this.addChannels(this.state.name, this.state.text)
-                }
-              >
+              <Form onSubmit={() => this.addChannels(this.state.name)}>
                 <Form.Field>
                   <label>Nom de la chaîne</label>
                   <input

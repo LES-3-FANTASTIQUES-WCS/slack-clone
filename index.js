@@ -1,8 +1,10 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const db = require('./controller');
+
+const app = express();
 const port = 8000;
+
 require('dotenv').config();
 
 app.use(bodyParser.json());
