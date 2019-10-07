@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
 import MessageList from './MessageList';
-import { ChannelList, ChannelListItem } from './App.styled';
+import { ChannelList } from './App.styled';
 
 class App extends React.Component {
   state = {
@@ -24,11 +24,11 @@ class App extends React.Component {
       <>
         <ChannelList>
           {this.state.channels.map(channel => (
-            <ChannelListItem key={channel.id}>
+            <li key={channel.id}>
               <Link to={`/channels/${channel.id}/messages`}>
                 {channel.name}
               </Link>
-            </ChannelListItem>
+            </li>
           ))}
         </ChannelList>
         <Switch>
