@@ -5,37 +5,41 @@ class MessageList extends React.Component {
     channelId: this.props.channelId,
     isLoading: true,
     messages: [],
+    shouldRefetchMessages: false,
   };
 
-  static async getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps.channelId, prevState);
-    if (nextProps.channelId !== prevState.channelId) {
-      const response = await fetch(
-        `/api/channels/${nextProps.channelId}/messages`
-      );
-      const { messages } = await response.json();
-
-      return {
-        channelId: nextProps.channelId,
-        isLoading: false,
-        messages,
-      };
-    }
-    return null;
-  }
+  fetchMessages = async () => {
+    this.setState({
+      shouldRefetchMessages: false,
+    });
+    const response = await fetch(
+      `/api/channels/${this.props.channelId}/messages`
+    );
+    const { messages } = await response.json();
+    this.setState({
+      isLoading: false,
+      messages,
+    });
+  };
 
   componentDidMount() {
     this.fetchMessages();
   }
 
-  fetchMessages = async () => {
-    const response = await fetch(
-      `/api/channels/${this.props.channelId}/messages`
-    );
-    const { messages } = await response.json();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // will need to refetch whenever React Router passes another channel id without unmounting component
+    if (nextProps.channelId !== prevState.channelId) {
+      // equivalent to this.setState(…)
+      return { channelId: nextProps.channelId, shouldRefetchMessages: true };
+    }
+    return null;
+  }
 
-    this.setState({ messages, isLoading: false });
-  };
+  componentDidUpdate() {
+    if (this.state.shouldRefetchMessages) {
+      this.fetchMessages();
+    }
+  }
 
   render() {
     if (this.state.isLoading) {
