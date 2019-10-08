@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+import { Input, Form } from 'semantic-ui-react';
 
 import { SendMessageWrapper } from './styles/SendMessage';
 
@@ -10,8 +10,7 @@ class SendMessage extends React.Component {
     userId: 1,
   };
 
-  onSubmit = async event => {
-    event.preventDefault();
+  onSubmit = async () => {
     const response = this.state;
 
     console.log(response);
@@ -29,16 +28,18 @@ class SendMessage extends React.Component {
 
     return (
       <SendMessageWrapper>
-        <form onSubmit={onSubmit}>
-          <Input
-            name="text"
-            onChange={onChange}
-            value={text}
-            placeholder="Send message"
-            type="text"
-            fluid
-          />
-        </form>
+        <Form onSubmit={onSubmit}>
+          <Form.Field>
+            <Input
+              name="text"
+              onChange={onChange}
+              value={text}
+              placeholder="Send message"
+              type="text"
+              fluid
+            />
+          </Form.Field>
+        </Form>
       </SendMessageWrapper>
     );
   }
