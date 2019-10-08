@@ -9,7 +9,7 @@ class AddModal extends React.Component {
       name: '',
       text: '',
       nameError: '',
-      textError: ''
+      textError: '',
     };
 
     this.handleName = this.handleName.bind(this);
@@ -100,12 +100,12 @@ class AddModal extends React.Component {
                     value={this.state.name}
                     onChange={this.handleName}
                   />
-                  {this.state.nameError}
+                  <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
                 </Form.Field>
                 <Form.Field>
                   <label>Présentation de la chaîne</label>
                   <input value={this.state.text} onChange={this.handleText} />
-                  {this.state.textError}
+                  <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
                 </Form.Field>
                 <Form.Field
                   style={{ marginBottom: '1em' }}

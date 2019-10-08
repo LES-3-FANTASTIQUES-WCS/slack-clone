@@ -30,7 +30,7 @@ class Channels extends React.Component {
 
   //hide sidebar
   resize() {
-    if (window.innerWidth <= 560) {
+    if (window.innerWidth <= 768) {
       this.setState({ isVisible: false });
     } else {
       this.setState({ isVisible: true });
