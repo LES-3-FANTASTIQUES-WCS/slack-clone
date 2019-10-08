@@ -8,6 +8,8 @@ class AddModal extends React.Component {
       modalOpen: false,
       name: '',
       text: '',
+      nameError: '',
+      textError: ''
     };
 
     this.handleName = this.handleName.bind(this);
@@ -28,17 +30,42 @@ class AddModal extends React.Component {
 
   //post new channel to server
   addChannels(channelsName) {
-    fetch('/channels', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: channelsName }),
-    }).then(() => {
-      this.props.getChannels();
-      this.setState({ name: '', text: '' });
-      this.handleClose();
-    });
+    const isValid = this.validate();
+    if (isValid) {
+      fetch('/channels', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: channelsName }),
+      }).then(() => {
+        this.props.getChannels();
+        this.setState({ name: '', text: '' });
+        this.handleClose();
+      });
+    }
+  }
+
+  validate() {
+    let nameError = '';
+    let textError = '';
+
+    if (!this.state.name) {
+      nameError = 'Vous devez entrer un nom de chaîne';
+    } else if (this.state.name.length < 3) {
+      nameError = 'Votre nom de chaîne doit au moins faire 3 caractères';
+    }
+    if (!this.state.text) {
+      textError = 'Vous devez préciser le but de votre chaîne';
+    } else if (this.state.text.length < 20) {
+      textError = 'Votre présentation doit au moins faire 20 caractères';
+    }
+
+    if (nameError || textError) {
+      this.setState({ nameError, textError });
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -55,7 +82,7 @@ class AddModal extends React.Component {
                 marginTop: '0.1em',
                 marginLeft: '2.5em',
                 fontSize: '1.4em',
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
               name="add"
             />
@@ -73,10 +100,12 @@ class AddModal extends React.Component {
                     value={this.state.name}
                     onChange={this.handleName}
                   />
+                  {this.state.nameError}
                 </Form.Field>
                 <Form.Field>
-                  <label>But de la chaîne</label>
+                  <label>Présentation de la chaîne</label>
                   <input value={this.state.text} onChange={this.handleText} />
+                  {this.state.textError}
                 </Form.Field>
                 <Form.Field
                   style={{ marginBottom: '1em' }}
