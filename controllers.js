@@ -27,7 +27,7 @@ const createMessage = async (req, res) => {
 
   await dataAccess.createMessage(text, channelId, userId);
 
-  return res.status(201);
+  return res.status(201).send('Message added');
 };
 
 module.exports = {
