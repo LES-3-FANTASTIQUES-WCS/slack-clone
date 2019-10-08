@@ -3,7 +3,7 @@ import { Search, Grid } from 'semantic-ui-react';
 import _ from 'lodash';
 import faker from 'faker';
 
-const source = _.times(5, () => ({
+const source = _.times(10, () => ({
   title: faker.company.companyName(),
   description: faker.company.catchPhrase(),
   image: faker.internet.avatar(),
