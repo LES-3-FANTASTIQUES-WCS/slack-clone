@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Segment, Sidebar, Grid } from 'semantic-ui-react';
+import { Menu, Sidebar, Grid } from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
 
@@ -9,6 +9,7 @@ class Channels extends React.Component {
     this.state = {
       channels: [],
       isVisible: true,
+      showMore: false,
     };
   }
 
@@ -36,19 +37,80 @@ class Channels extends React.Component {
     }
   }
 
+  showMore() {
+    this.setState({ showMore: !this.state.showMore });
+  }
+
   render() {
+    const show = this.state.showMore;
+    let channelsList;
+
+    if (show) {
+      channelsList = (
+        <div style={{ zIndex: 0 }}>
+          {this.state.channels.slice(0, 5).map(channels => (
+            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+              # {channels.name}
+            </Menu.Item>
+          ))}
+          {this.state.showMore ? '' : ''}
+          {this.state.channels.slice(5).map(channels => (
+            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+              # {channels.name}
+            </Menu.Item>
+          ))}
+          <Menu.Item
+            style={{ fontWeight: 'bold', cursor: 'pointer' }}
+            onClick={() => this.showMore()}
+            active
+          >
+            Voir moins
+          </Menu.Item>
+        </div>
+      );
+    } else if (show === false) {
+      channelsList = (
+        <div style={{ zIndex: 0 }}>
+          {this.state.channels.slice(0, 5).map(channels => (
+            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+              # {channels.name}
+            </Menu.Item>
+          ))}
+          <Menu.Item
+            style={{ fontWeight: 'bold', cursor: 'pointer' }}
+            onClick={() => this.showMore()}
+            active
+          >
+            Voir plus
+          </Menu.Item>
+        </div>
+      );
+    }
     return (
       <div
-        style={{ height: '100vh', display: 'flex', flexFlow: 'column nowrap' }}
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexFlow: 'column nowrap',
+        }}
       >
-        <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Menu}
-            animation="overlay"
-            icon="labeled"
-            inverted
-            vertical
-            visible={this.state.isVisible}
+        <Sidebar
+          as={Menu}
+          animation="push"
+          icon="labeled"
+          inverted
+          vertical
+          visible={this.state.isVisible}
+        >
+          <div
+            style={{
+              position: '-webkit-sticky',
+              position: 'sticky',
+              top: '0',
+              backgroundColor: '#1b1c1d',
+              zIndex: 1,
+              height: '50px',
+            }}
           >
             <Menu.Item>
               <Grid columns="two" divided>
@@ -64,13 +126,9 @@ class Channels extends React.Component {
                 </Grid.Row>
               </Grid>
             </Menu.Item>
-            <div>
-              {this.state.channels.map(channels => (
-                <Menu.Item key={channels.id}># {channels.name}</Menu.Item>
-              ))}
-            </div>
-          </Sidebar>
-        </Sidebar.Pushable>
+          </div>
+          {channelsList}
+        </Sidebar>
       </div>
     );
   }
