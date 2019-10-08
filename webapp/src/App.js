@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import MessageList from './MessageList';
-import { AppWrapper, LinkToChannel, ChannelList } from './App.styled';
+import MessageList from './components/MessageList/MessageList';
+import ChannelList from './components/ChannelList/ChannelList';
+import { AppWrapper } from './App.styled';
 
 class App extends React.Component {
   state = {
@@ -22,15 +23,7 @@ class App extends React.Component {
     }
     return (
       <AppWrapper>
-        <ChannelList>
-          {this.state.channels.map(channel => (
-            <li key={channel.id}>
-              <LinkToChannel to={`/channels/${channel.id}/messages`}>
-                {channel.name}
-              </LinkToChannel>
-            </li>
-          ))}
-        </ChannelList>
+        <ChannelList channels={this.state.channels} />
         <Switch>
           <Route
             path="/channels/:channelId/messages"
