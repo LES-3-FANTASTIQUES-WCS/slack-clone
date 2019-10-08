@@ -40,6 +40,8 @@ class AddModal extends React.Component {
       this.props.getChannels();
       this.setState({ name: '', text: '' });
       this.handleClose();
+    }).catch(() => {
+      console.log('not work');
     });
   }
 
