@@ -20,8 +20,12 @@ export default () => (
     <Header channelName="general" />
     <Route
       path="/channels/:channelId/messages"
-      render={props => <MessageList channelId={props.match.params.channelId} />}
+      render={props => (
+        <>
+          <MessageList channelId={props.match.params.channelId} />
+          <SendMessage channelId={props.match.params.channelId} />
+        </>
+      )}
     />
-    <SendMessage />
   </AppLayout>
 );
