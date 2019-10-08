@@ -58,7 +58,7 @@ class MessageList extends React.Component {
               <Comment.Content>
                 <Comment.Author as="a">{message.username}</Comment.Author>
                 <Comment.Metadata>
-                  <div>Today at 5:42PM</div>
+                  <div>{message.created_at}</div>
                 </Comment.Metadata>
                 <Comment.Text>{message.text}</Comment.Text>
                 <Comment.Actions>
