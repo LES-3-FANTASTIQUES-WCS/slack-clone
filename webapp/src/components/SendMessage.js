@@ -10,6 +10,8 @@ class SendMessage extends React.Component {
     userId: 1,
   };
 
+  // For now, every new message is linked to first user id (userId = 1)
+  // TODO: on create, assign message to a user or define it as an anonymous message
   onSubmit = async () => {
     await fetch(`/api/channels/${this.state.channelId}/messages`, {
       headers: { 'Content-Type': 'application/json' },
