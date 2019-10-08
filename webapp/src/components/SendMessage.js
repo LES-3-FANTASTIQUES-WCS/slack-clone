@@ -11,9 +11,17 @@ class SendMessage extends React.Component {
   };
 
   onSubmit = async () => {
-    const response = this.state;
+    await fetch(`/api/channels/${this.state.channelId}/messages`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify(this.state),
+    });
 
-    console.log(response);
+    this.props.fetchMessages();
+
+    this.setState({
+      text: '',
+    });
   };
 
   onChange = e => {

@@ -2,15 +2,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import Channels from './Channels';
-import { TeamWrapper } from './styles/Teams';
 import Header from './Header';
-import MessageList from './MessageList';
-import SendMessage from './SendMessage';
+import MessagesView from './containers/MessagesView';
 import AppLayout from './styles/AppLayout';
 
 export default () => (
   <AppLayout>
-    <TeamWrapper>Teams</TeamWrapper>
     <Channels
       teamName="Team name"
       userName="Username"
@@ -21,10 +18,7 @@ export default () => (
     <Route
       path="/channels/:channelId/messages"
       render={props => (
-        <>
-          <MessageList channelId={props.match.params.channelId} />
-          <SendMessage channelId={props.match.params.channelId} />
-        </>
+        <MessagesView channelId={props.match.params.channelId} />
       )}
     />
   </AppLayout>
