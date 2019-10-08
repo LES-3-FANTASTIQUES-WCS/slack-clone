@@ -89,7 +89,6 @@ class Channels extends React.Component {
     return (
       <div
         style={{
-          height: '100vh',
           display: 'flex',
           flexFlow: 'column nowrap',
         }}
