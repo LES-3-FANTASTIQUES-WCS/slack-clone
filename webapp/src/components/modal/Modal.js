@@ -28,7 +28,6 @@ class AddModal extends React.Component {
 
   //post new channel to server
   addChannels(channelsName) {
-    console.log('work');
     fetch('/channels', {
       method: 'post',
       headers: {
@@ -36,12 +35,9 @@ class AddModal extends React.Component {
       },
       body: JSON.stringify({ name: channelsName }),
     }).then(() => {
-      console.log('work again');
       this.props.getChannels();
       this.setState({ name: '', text: '' });
       this.handleClose();
-    }).catch(() => {
-      console.log('not work');
     });
   }
 
@@ -55,8 +51,13 @@ class AddModal extends React.Component {
           trigger={
             <Icon
               onClick={this.handleOpen}
-              style={{ marginTop: '0.5em', marginLeft: '4em' }}
-              name="plus circle"
+              style={{
+                marginTop: '0.1em',
+                marginLeft: '2.5em',
+                fontSize: '1.4em',
+                cursor: 'pointer'
+              }}
+              name="add"
             />
           }
           closeIcon
