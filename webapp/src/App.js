@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import MessageList from './MessageList';
-import { ChannelList } from './App.styled';
+import { AppWrapper, LinkToChannel, ChannelList } from './App.styled';
 
 class App extends React.Component {
   state = {
@@ -21,13 +21,13 @@ class App extends React.Component {
       return <div>Loading…</div>;
     }
     return (
-      <>
+      <AppWrapper>
         <ChannelList>
           {this.state.channels.map(channel => (
             <li key={channel.id}>
-              <Link to={`/channels/${channel.id}/messages`}>
+              <LinkToChannel to={`/channels/${channel.id}/messages`}>
                 {channel.name}
-              </Link>
+              </LinkToChannel>
             </li>
           ))}
         </ChannelList>
@@ -39,7 +39,7 @@ class App extends React.Component {
             )}
           />
         </Switch>
-      </>
+      </AppWrapper>
     );
   }
 }
