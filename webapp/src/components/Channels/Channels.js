@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Sidebar, Grid } from 'semantic-ui-react';
 
-import AddModal from '../Modal/Modal';
+import AddModal from '../modal/Modal';
 
 class Channels extends React.Component {
   constructor(props) {
