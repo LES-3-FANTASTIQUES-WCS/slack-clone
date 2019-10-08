@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Channels from './components/sidebar/Channels';
+import Channels from './components/Channels/Channels';
 
 function App() {
   return (

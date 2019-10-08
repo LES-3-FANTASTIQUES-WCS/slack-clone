@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Sidebar, Grid } from 'semantic-ui-react';
 
-import AddModal from '../modal/Modal';
+import AddModal from '../Modal/Modal';
 
 class Channels extends React.Component {
   constructor(props) {
@@ -105,6 +105,7 @@ class Channels extends React.Component {
           <div
             style={{
               position: '-webkit-sticky',
+              // eslint-disable-next-line
               position: 'sticky',
               top: '0',
               backgroundColor: '#1b1c1d',
