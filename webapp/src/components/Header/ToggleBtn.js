@@ -18,7 +18,11 @@ class ToggleBtn extends Component {
       <div style={{ display: 'flex', flex: 'left' }}>
         <Responsive as={Header} maxWidth={992}>
           <Button onClick={this.displaySide} />
+<<<<<<< HEAD
           {this.state.isToggleOn ? '' : ''}
+=======
+          {this.state.isToggleOn ? 'on' : 'off'}
+>>>>>>> fbc69e1e2f5de13628d07b5632e71c5da639181c
         </Responsive>
         <Responsive as={Header} minWidth={992}>
           <a
