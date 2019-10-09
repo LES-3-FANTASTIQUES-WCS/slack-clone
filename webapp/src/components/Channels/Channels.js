@@ -59,13 +59,15 @@ class Channels extends React.Component {
               # {channels.name}
             </Menu.Item>
           ))}
-          <Menu.Item
-            style={{ fontWeight: 'bold', cursor: 'pointer' }}
-            onClick={() => this.showMore()}
-            active
-          >
-            Voir moins
-          </Menu.Item>
+          {this.state.channels.length > 5 && (
+            <Menu.Item
+              style={{ fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => this.showMore()}
+              active
+            >
+              Voir moins
+            </Menu.Item>
+          )}
         </div>
       );
     } else if (show === false) {
@@ -76,13 +78,15 @@ class Channels extends React.Component {
               # {channels.name}
             </Menu.Item>
           ))}
-          <Menu.Item
-            style={{ fontWeight: 'bold', cursor: 'pointer' }}
-            onClick={() => this.showMore()}
-            active
-          >
-            Voir plus
-          </Menu.Item>
+          {this.state.channels.length > 5 && (
+            <Menu.Item
+              style={{ fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => this.showMore()}
+              active
+            >
+              Voir plus
+            </Menu.Item>
+          )}
         </div>
       );
     }
