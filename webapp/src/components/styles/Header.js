@@ -3,11 +3,19 @@ import styled from 'styled-components';
 const HeaderWrapper = styled.div`
   grid-column: 3;
   grid-row: 1;
+  width: auto;
 `;
 
 const ToggleBtnStyle = styled.div`
-  display: flex;
-  justify-content: flex-start;
+  padding: 1rem;
 `;
 
-export { HeaderWrapper, ToggleBtnStyle };
+const LogUserStyle = styled.div`
+  padding: 1rem;
+`;
+
+const ChannelStyle = styled.div`
+  padding-top: 0.3rem;
+`;
+
+export { HeaderWrapper, ToggleBtnStyle, LogUserStyle, ChannelStyle };

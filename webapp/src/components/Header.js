@@ -1,10 +1,32 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import SearchBar from '../components/Header/SearchBar';
+import { Segment, Grid, Header } from 'semantic-ui-react';
+import ToggleBtn from '../components/Header/ToggleBtn';
+import { HeaderWrapper, ChannelStyle } from '../components/styles/Header';
+import { LogUser } from './Header/LogUser';
 
-import { HeaderWrapper } from './styles/Header';
+const TheHeader = ({ channelName }) => {
+  return (
+    <HeaderWrapper>
+      <Segment style={{ margin: '0rem ' }}>
+        <Grid columns="equal">
+          <ToggleBtn />
 
-export default ({ channelName }) => (
-  <HeaderWrapper>
-    <Header textAlign="center">#{channelName}</Header>
-  </HeaderWrapper>
-);
+          <Grid.Column>
+            <ChannelStyle>
+              <Header textAlign="center">#{channelName}</Header>
+            </ChannelStyle>
+          </Grid.Column>
+
+          <Grid.Column>
+            <SearchBar />
+          </Grid.Column>
+
+          <LogUser />
+        </Grid>
+      </Segment>
+    </HeaderWrapper>
+  );
+};
+
+export default TheHeader;

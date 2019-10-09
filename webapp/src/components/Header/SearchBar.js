@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Search, Grid } from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 import faker from 'faker';
 
@@ -38,22 +38,18 @@ class SearchExampleStandard extends Component {
     const { isLoading, value, results } = this.state;
 
     return (
-      <Grid>
-        <Grid.Column width={6}>
-          <Search
-            size="mini"
-            aligned="right"
-            loading={isLoading}
-            onResultSelect={this.handleResultSelect}
-            onSearchChange={_.debounce(this.handleSearchChange, 500, {
-              leading: true,
-            })}
-            results={results}
-            value={value}
-            {...this.props}
-          />
-        </Grid.Column>
-      </Grid>
+      <Search
+        size="mini"
+        aligned="right"
+        loading={isLoading}
+        onResultSelect={this.handleResultSelect}
+        onSearchChange={_.debounce(this.handleSearchChange, 500, {
+          leading: true,
+        })}
+        results={results}
+        value={value}
+        {...this.props}
+      />
     );
   }
 }

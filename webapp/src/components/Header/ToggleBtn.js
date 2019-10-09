@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Logo from '../../assert/logo.svg';
 import { Responsive, Button, Image, Header } from 'semantic-ui-react';
+import { ToggleBtnStyle } from '../styles/Header';
 
 class ToggleBtn extends Component {
   constructor(props) {
@@ -15,10 +16,10 @@ class ToggleBtn extends Component {
   };
   render() {
     return (
-      <div style={{ display: 'flex', flex: 'left' }}>
+      <ToggleBtnStyle>
         <Responsive as={Header} maxWidth={992}>
           <Button onClick={this.displaySide} />
-          {this.state.isToggleOn ? '' : ''}
+          {this.state.isToggleOn ? 'on' : 'off'}
         </Responsive>
         <Responsive as={Header} minWidth={992}>
           <a
@@ -30,7 +31,7 @@ class ToggleBtn extends Component {
             <Image size="mini" src={Logo} />
           </a>
         </Responsive>
-      </div>
+      </ToggleBtnStyle>
     );
   }
 }

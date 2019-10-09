@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Channels from './Channels';
 import { TeamWrapper } from './styles/Teams';
-import TheHeader from './Header/TheHeader';
+import TheHeader from './Header';
 import MessageList from './MessageList';
 import SendMessage from './SendMessage';
 import AppLayout from './styles/AppLayout';
