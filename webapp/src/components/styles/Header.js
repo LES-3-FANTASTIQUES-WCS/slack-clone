@@ -5,4 +5,9 @@ const HeaderWrapper = styled.div`
   grid-row: 1;
 `;
 
-export { HeaderWrapper };
+const ToggleBtnStyle = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+export { HeaderWrapper, ToggleBtnStyle };
