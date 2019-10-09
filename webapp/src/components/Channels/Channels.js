@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Sidebar, Grid } from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
+import { HeaderChannelList } from '../styles/Channels';
 
 class Channels extends React.Component {
   constructor(props) {
@@ -59,17 +60,7 @@ class Channels extends React.Component {
           vertical
           visible={this.state.isVisible}
         >
-          <div
-            style={{
-              position: '-webkit-sticky',
-              // eslint-disable-next-line
-              position: 'sticky',
-              top: '0',
-              backgroundColor: '#1b1c1d',
-              zIndex: 1,
-              height: '50px',
-            }}
-          >
+          <HeaderChannelList>
             <Menu.Item>
               <Grid columns="two" divided>
                 <Grid.Row>
@@ -84,17 +75,25 @@ class Channels extends React.Component {
                 </Grid.Row>
               </Grid>
             </Menu.Item>
-          </div>
+          </HeaderChannelList>
 
           <div style={{ zIndex: 0 }}>
             {this.state.channels.slice(0, 5).map(channels => (
-              <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+              <Menu.Item
+                style={{ cursor: 'pointer' }}
+                key={channels.id}
+                to={`/channels/${channels.id}/messages`}
+              >
                 # {channels.name}
               </Menu.Item>
             ))}
             {isShow &&
               this.state.channels.slice(5).map(channels => (
-                <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+                <Menu.Item
+                  style={{ cursor: 'pointer' }}
+                  key={channels.id}
+                  to={`/channels/${channels.id}/messages`}
+                >
                   # {channels.name}
                 </Menu.Item>
               ))}

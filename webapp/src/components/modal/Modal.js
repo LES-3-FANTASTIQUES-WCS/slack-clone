@@ -76,16 +76,20 @@ class AddModal extends React.Component {
           open={this.state.modalOpen}
           onClose={this.handleClose}
           trigger={
-            <Icon
-              onClick={this.handleOpen}
-              style={{
-                marginTop: '0.1em',
-                marginLeft: '2.5em',
-                fontSize: '1.4em',
-                cursor: 'pointer',
-              }}
-              name="add"
-            />
+            <button style={{backgroundColor:"#1B1C1D", border: 'none'}}>
+              {' '}
+              <Icon
+                onClick={this.handleOpen}
+                style={{
+                  marginTop: '0.1em',
+                  marginLeft: '2.5em',
+                  fontSize: '1.4em',
+                  cursor: 'pointer',
+                }}
+                inverted
+                name="add"
+              />
+            </button>
           }
           closeIcon
         >

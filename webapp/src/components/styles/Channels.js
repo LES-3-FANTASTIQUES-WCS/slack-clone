@@ -7,4 +7,13 @@ const ChannelWrapper = styled.div`
   color: #958993;
 `;
 
-export { ChannelWrapper };
+const HeaderChannelList = styled.div`
+  position: '-webkit-sticky';
+  position: 'sticky';
+  top: '0';
+  backgroundcolor: '#1b1c1d';
+  zindex: 1;
+  height: '50px';
+`;
+
+export { ChannelWrapper, HeaderChannelList };
