@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
-  grid-column: 2;
+  @media screen and (min-width: 768px) {
+    grid-column: 2;
+  }
+  grid-column: 1;
   grid-row: 1;
   width: auto;
 `;
