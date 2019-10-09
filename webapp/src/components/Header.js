@@ -1,32 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import SearchBar from '../components/Header/SearchBar';
 import { Segment, Grid, Header } from 'semantic-ui-react';
 import ToggleBtn from '../components/Header/ToggleBtn';
 import { HeaderWrapper, ChannelStyle } from '../components/styles/Header';
 import { LogUser } from './Header/LogUser';
 
-const TheHeader = ({ channelName }) => {
-  return (
-    <HeaderWrapper>
-      <Segment style={{ margin: '0rem ' }}>
-        <Grid columns="equal">
-          <ToggleBtn />
+class TheHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-          <Grid.Column>
-            <ChannelStyle>
-              <Header textAlign="center">#{channelName}</Header>
-            </ChannelStyle>
-          </Grid.Column>
+  render() {
+    return (
+      <HeaderWrapper>
+        <Segment style={{ margin: '0rem ' }}>
+          <Grid columns="equal">
+            <ToggleBtn />
 
-          <Grid.Column>
-            <SearchBar />
-          </Grid.Column>
+            <Grid.Column>
+              <ChannelStyle>
+                <Header textAlign="center">#{this.state.channelStyle}</Header>
+              </ChannelStyle>
+            </Grid.Column>
 
-          <LogUser />
-        </Grid>
-      </Segment>
-    </HeaderWrapper>
-  );
-};
+            <Grid.Column>
+              <SearchBar />
+            </Grid.Column>
+
+            <LogUser />
+          </Grid>
+        </Segment>
+      </HeaderWrapper>
+    );
+  }
+}
 
 export default TheHeader;
