@@ -42,54 +42,8 @@ class Channels extends React.Component {
   }
 
   render() {
-    const show = this.state.showMore;
-    let channelsList;
+    const isShow = this.state.showMore;
 
-    if (show) {
-      channelsList = (
-        <div style={{ zIndex: 0 }}>
-          {this.state.channels.slice(0, 5).map(channels => (
-            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
-              # {channels.name}
-            </Menu.Item>
-          ))}
-          {this.state.showMore ? '' : ''}
-          {this.state.channels.slice(5).map(channels => (
-            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
-              # {channels.name}
-            </Menu.Item>
-          ))}
-          {this.state.channels.length > 5 && (
-            <Menu.Item
-              style={{ fontWeight: 'bold', cursor: 'pointer' }}
-              onClick={() => this.showMore()}
-              active
-            >
-              Voir moins
-            </Menu.Item>
-          )}
-        </div>
-      );
-    } else if (show === false) {
-      channelsList = (
-        <div style={{ zIndex: 0 }}>
-          {this.state.channels.slice(0, 5).map(channels => (
-            <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
-              # {channels.name}
-            </Menu.Item>
-          ))}
-          {this.state.channels.length > 5 && (
-            <Menu.Item
-              style={{ fontWeight: 'bold', cursor: 'pointer' }}
-              onClick={() => this.showMore()}
-              active
-            >
-              Voir plus
-            </Menu.Item>
-          )}
-        </div>
-      );
-    }
     return (
       <div
         style={{
@@ -131,7 +85,30 @@ class Channels extends React.Component {
               </Grid>
             </Menu.Item>
           </div>
-          {channelsList}
+
+          <div style={{ zIndex: 0 }}>
+            {this.state.channels.slice(0, 5).map(channels => (
+              <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+                # {channels.name}
+              </Menu.Item>
+            ))}
+            {isShow &&
+              this.state.channels.slice(5).map(channels => (
+                <Menu.Item style={{ cursor: 'pointer' }} key={channels.id}>
+                  # {channels.name}
+                </Menu.Item>
+              ))}
+
+            {this.state.channels.length > 5 && (
+              <Menu.Item
+                style={{ fontWeight: 'bold', cursor: 'pointer' }}
+                onClick={() => this.showMore()}
+                active
+              >
+                {isShow ? 'Voir moins' : 'Voir plus'}
+              </Menu.Item>
+            )}
+          </div>
         </Sidebar>
       </div>
     );
