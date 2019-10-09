@@ -11,7 +11,7 @@ const ChannelList = props => {
   console.log('ChannelList');
   return (
     <ChannelListWrapper isOpen={props.isOpen}>
-      <CloseButton>x</CloseButton>
+      <CloseButton onClick={props.closeChannelList}>x</CloseButton>
       <StyledChannelList>
         {props.channels.map(channel => (
           <li key={channel.id}>

@@ -18,6 +18,7 @@ class ToggleChannelList extends React.Component {
         <ChannelList
           isOpen={this.state.isOpen}
           channels={this.props.channels}
+          closeChannelList={this.toggleIsOpen}
         />
 
         <BurgerWrapper>
