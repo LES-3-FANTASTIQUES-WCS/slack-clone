@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Sidebar, Grid } from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
-import { HeaderChannelList } from '../styles/Channels';
+import { HeaderChannelList, ItemChannel } from '../styles/Channels';
 
 class Channels extends React.Component {
   constructor(props) {
@@ -79,23 +79,23 @@ class Channels extends React.Component {
 
           <div style={{ zIndex: 0 }}>
             {this.state.channels.slice(0, 5).map(channels => (
-              <Menu.Item
+              <ItemChannel
                 style={{ cursor: 'pointer' }}
                 key={channels.id}
                 to={`/channels/${channels.id}/messages`}
               >
                 # {channels.name}
-              </Menu.Item>
+              </ItemChannel>
             ))}
             {isShow &&
               this.state.channels.slice(5).map(channels => (
-                <Menu.Item
+                <ItemChannel
                   style={{ cursor: 'pointer' }}
                   key={channels.id}
                   to={`/channels/${channels.id}/messages`}
                 >
                   # {channels.name}
-                </Menu.Item>
+                </ItemChannel>
               ))}
 
             {this.state.channels.length > 5 && (

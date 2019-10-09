@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Menu } from 'semantic-ui-react';
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
@@ -13,6 +14,13 @@ const HeaderChannelList = styled.div`
   background-color: #1b1c1d;
   z-index: 1;
   height: 50px;
+  margin-bottom: 1.2em;
 `;
 
-export { ChannelWrapper, HeaderChannelList };
+const ItemChannel = styled(Menu.Item)`
+  &&&:hover {
+    background-color: #4d4d4d;
+  }
+`;
+
+export { ChannelWrapper, HeaderChannelList, ItemChannel };
