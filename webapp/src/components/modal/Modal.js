@@ -12,19 +12,19 @@ class AddModal extends React.Component {
       textError: '',
     };
 
-    this.handleName = this.handleName.bind(this);
-    this.handleText = this.handleText.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   handleOpen = () => this.setState({ modalOpen: true });
 
   handleClose = () => this.setState({ modalOpen: false });
 
-  handleName(event) {
+  handleNameChange(event) {
     this.setState({ name: event.target.value });
   }
 
-  handleText(event) {
+  handleTextChange(event) {
     this.setState({ text: event.target.value });
   }
 
@@ -76,7 +76,7 @@ class AddModal extends React.Component {
           open={this.state.modalOpen}
           onClose={this.handleClose}
           trigger={
-            <button style={{backgroundColor:"#1B1C1D", border: 'none'}}>
+            <button style={{ backgroundColor: '#1B1C1D', border: 'none' }}>
               {' '}
               <Icon
                 onClick={this.handleOpen}
@@ -102,7 +102,7 @@ class AddModal extends React.Component {
                   <input
                     className="form-control"
                     value={this.state.name}
-                    onChange={this.handleName}
+                    onChange={this.handleNameChange}
                     pattern="^(?!\s*$|\s).*$"
                   />
                   <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
@@ -111,7 +111,7 @@ class AddModal extends React.Component {
                   <label>Présentation de la chaîne</label>
                   <input
                     value={this.state.text}
-                    onChange={this.handleText}
+                    onChange={this.handleTextChange}
                     pattern="^(?!\s*$|\s).*$"
                   />
                   <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
