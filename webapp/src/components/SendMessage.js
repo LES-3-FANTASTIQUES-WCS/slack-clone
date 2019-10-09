@@ -5,18 +5,21 @@ import { SendMessageWrapper } from './styles/SendMessage';
 
 class SendMessage extends React.Component {
   state = {
-    channelId: this.props.channelId,
     text: '',
     userId: 1,
   };
 
   // For now, every new message is linked to first user id (userId = 1)
   // TODO: on create, assign message to a user or define it as an anonymous message
-  onSubmit = async () => {
-    await fetch(`/api/channels/${this.state.channelId}/messages`, {
+  submit = async () => {
+    await fetch(`/api/channels/${this.props.channelId}/messages`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({
+        channelId: this.props.channelId,
+        text: this.state.text,
+        userId: this.state.userId,
+      }),
     });
 
     this.props.fetchMessages();
@@ -34,11 +37,11 @@ class SendMessage extends React.Component {
 
   render() {
     const { text } = this.state;
-    const { onChange, onSubmit } = this;
+    const { onChange, submit } = this;
 
     return (
       <SendMessageWrapper>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={submit}>
           <Form.Field>
             <Input
               name="text"
