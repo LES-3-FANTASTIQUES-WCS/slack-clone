@@ -20,13 +20,14 @@ class MainHeader extends Component {
         <Segment style={{ margin: '0rem ' }}>
           <Grid columns="equal">
             <ToggleBtnStyle>
-              <Responsive as={Header} maxWidth={768}>
-                <Button onClick={this.props.toggleSidebar} />
+              <Responsive as={Header} maxWidth={767}>
+                <Button onClick={this.props.toggleSidebar}>
+                Menu
+                </Button>
               </Responsive>
               <Responsive as={Header} minWidth={768}>
                 <a
-                  onClick=""
-                  href="https://fr.reactjs.org/"
+                  href="/"
                   target="_blank"
                   rel="noreferrer"
                 >

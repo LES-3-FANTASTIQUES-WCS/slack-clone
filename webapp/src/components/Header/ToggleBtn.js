@@ -22,7 +22,7 @@ class ToggleBtn extends Component {
           <a
             onClick=""
             href="https://fr.reactjs.org/"
-            target="_blank"
+            link="_blank"
             rel="noreferrer"
           >
             <Image size="mini" src={Logo} />

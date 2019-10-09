@@ -70,7 +70,7 @@ class AddModal extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{zIndex: '99'}}>
         <Modal
           size="tiny"
           open={this.state.modalOpen}
@@ -81,9 +81,8 @@ class AddModal extends React.Component {
               <Icon
                 onClick={this.handleOpen}
                 style={{
-                  marginTop: '0.1em',
-                  marginLeft: '2.5em',
-                  fontSize: '1.4em',
+                  marginLeft: '-3em',
+                  fontSize: '1.5em',
                   cursor: 'pointer',
                 }}
                 inverted

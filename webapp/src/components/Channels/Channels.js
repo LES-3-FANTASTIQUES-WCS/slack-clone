@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Sidebar, Grid } from 'semantic-ui-react';
+import { Menu, Sidebar, Grid, Icon } from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
 import {
@@ -13,15 +13,14 @@ class Channels extends React.Component {
     super(props);
     this.state = {
       channels: [],
-      isVisible: true,
+      buttonDisplay: false,
       showMore: false,
     };
   }
 
   componentDidMount() {
-    //call function to hide sidebar
-    window.addEventListener('resize', this.resize.bind(this));
-    this.resize();
+    window.addEventListener('resize', this.displayButtonClose.bind(this));
+    this.displayButtonClose();
 
     this.getChannels();
   }
@@ -34,11 +33,11 @@ class Channels extends React.Component {
   };
 
   //hide sidebar
-  resize() {
+  displayButtonClose() {
     if (window.innerWidth < 768) {
-      this.setState({ isVisible: false });
+      this.setState({ buttonDisplay: true });
     } else {
-      this.setState({ isVisible: true });
+      this.setState({ buttonDisplay: false });
     }
   }
 
@@ -60,6 +59,24 @@ class Channels extends React.Component {
             vertical
             visible={this.props.isOpen}
           >
+            {this.state.buttonDisplay && (
+              <button
+                style={{
+                  backgroundColor: '#1B1C1D',
+                  border: 'none',
+                  marginLeft: '16em',
+                  marginTop: '0.5em',
+                }}
+              >
+                <Icon
+                  name="close"
+                  onClick={this.props.toggleSidebar}
+                  style={{ fontSize: '1.5em' }}
+                  inverted
+                />
+              </button>
+            )}
+
             <HeaderChannelList>
               <Menu.Item>
                 <Grid columns="two" divided>
@@ -84,17 +101,17 @@ class Channels extends React.Component {
             </HeaderChannelList>
 
             <div style={{ zIndex: 0 }}>
-              {this.state.channels.slice(0, 5).map(channels => (
-                <ItemChannel
-                  style={{ cursor: 'pointer' }}
-                  key={channels.id}
-                  to={`/channels/${channels.id}/messages`}
-                >
-                  # {channels.name}
-                </ItemChannel>
-              ))}
-              {isShow &&
-                this.state.channels.slice(5).map(channels => (
+              {this.state.channels.slice(0, 5).map(channels =>
+                this.state.buttonDisplay ? (
+                  <ItemChannel
+                    onClick={this.props.toggleSidebar}
+                    style={{ cursor: 'pointer' }}
+                    key={channels.id}
+                    to={`/channels/${channels.id}/messages`}
+                  >
+                    # {channels.name}
+                  </ItemChannel>
+                ) : (
                   <ItemChannel
                     style={{ cursor: 'pointer' }}
                     key={channels.id}
@@ -102,7 +119,29 @@ class Channels extends React.Component {
                   >
                     # {channels.name}
                   </ItemChannel>
-                ))}
+                )
+              )}
+              {isShow &&
+                this.state.channels.slice(5).map(channels =>
+                  this.state.buttonDisplay ? (
+                    <ItemChannel
+                      onClick={this.props.toggleSidebar}
+                      style={{ cursor: 'pointer' }}
+                      key={channels.id}
+                      to={`/channels/${channels.id}/messages`}
+                    >
+                      # {channels.name}
+                    </ItemChannel>
+                  ) : (
+                    <ItemChannel
+                      style={{ cursor: 'pointer' }}
+                      key={channels.id}
+                      to={`/channels/${channels.id}/messages`}
+                    >
+                      # {channels.name}
+                    </ItemChannel>
+                  )
+                )}
 
               {this.state.channels.length > 5 && (
                 <Menu.Item

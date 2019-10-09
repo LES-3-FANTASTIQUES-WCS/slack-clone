@@ -27,14 +27,13 @@ class Dashboard extends React.Component {
   }
 
   toggleSidebar = () => {
-    console.log(345, this.state.isOpen);
     this.setState({ isOpen: !this.state.isOpen });
   };
 
   render() {
     return (
       <AppLayout>
-        <Channels isOpen={this.state.isOpen} />
+        <Channels isOpen={this.state.isOpen} toggleSidebar={this.toggleSidebar} />
         <Header channelName="general" toggleSidebar={this.toggleSidebar} />
         <Route
           path="/channels/:channelId/messages"

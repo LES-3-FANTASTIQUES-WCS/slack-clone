@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Menu } from 'semantic-ui-react';
 
 const ChannelWrapper = styled.div`
-  z-index: 999999;
+  z-index: 3;
   grid-column: 1;
   grid-row: 1 / 4;
   background-color: #1b1c1d;
