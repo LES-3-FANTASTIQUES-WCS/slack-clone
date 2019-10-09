@@ -32,7 +32,7 @@ class AddModal extends React.Component {
   addChannels(channelsName) {
     const isValid = this.validate();
     if (isValid) {
-      fetch('/channels', {
+      fetch('/api/channels', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

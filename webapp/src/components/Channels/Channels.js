@@ -23,7 +23,7 @@ class Channels extends React.Component {
 
   //get channels from server
   getChannels = async () => {
-    const response = await fetch('/channels');
+    const response = await fetch('/api/channels');
     const { channels } = await response.json();
     this.setState({ channels });
   };
