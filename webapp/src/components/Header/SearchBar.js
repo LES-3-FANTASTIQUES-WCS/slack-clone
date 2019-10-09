@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Search } from 'semantic-ui-react';
-import _ from 'lodash';
+import times from 'lodash/times';
+import escapeRegExp from 'lodash/escapeRegExp';
+import filter from 'lodash/filter';
+import debounce from 'lodash/debounce';
 import faker from 'faker';
 
-const source = _.times(10, () => ({
+const source = times(10, () => ({
   title: faker.company.companyName(),
   description: faker.company.catchPhrase(),
   image: faker.internet.avatar(),
@@ -24,12 +27,12 @@ class SearchExampleStandard extends Component {
     setTimeout(() => {
       if (this.state.value.length < 1) return this.setState(initialState);
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
+      const re = new RegExp(escapeRegExp(this.state.value), 'i');
       const isMatch = result => re.test(result.title);
 
       this.setState({
         isLoading: false,
-        results: _.filter(source, isMatch),
+        results: filter(source, isMatch),
       });
     }, 300);
   };
@@ -43,7 +46,7 @@ class SearchExampleStandard extends Component {
         aligned="right"
         loading={isLoading}
         onResultSelect={this.handleResultSelect}
-        onSearchChange={_.debounce(this.handleSearchChange, 500, {
+        onSearchChange={debounce(this.handleSearchChange, 500, {
           leading: true,
         })}
         results={results}

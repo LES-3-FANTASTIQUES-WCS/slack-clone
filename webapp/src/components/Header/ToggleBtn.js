@@ -4,15 +4,12 @@ import { Responsive, Button, Image, Header } from 'semantic-ui-react';
 import { ToggleBtnStyle } from '../styles/Header';
 
 class ToggleBtn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isToggleOn: true };
-  }
+  state = { isToggleOn: true };
 
   displaySide = () => {
-    this.setState(state => ({
-      isToggleOn: !state.isToggleOn,
-    }));
+    this.setState({
+      isToggleOn: !this.state.isToggleOn,
+    });
   };
   render() {
     return (

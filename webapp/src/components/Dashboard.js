@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Channels from './Channels';
 import { TeamWrapper } from './styles/Teams';
-import TheHeader from './Header';
+import MainHeader from './Header';
 import MessageList from './MessageList';
 import SendMessage from './SendMessage';
 import AppLayout from './styles/AppLayout';
@@ -17,7 +17,7 @@ export default () => (
       channels={[{ id: 1, name: 'general' }, { id: 2, name: 'random' }]}
       users={[{ id: 1, name: 'slackbot' }, { id: 2, name: 'user1' }]}
     />
-    <TheHeader channelName="general" />
+    <MainHeader channelName="general" />
     <Route
       path="/channels/:channelId/messages"
       render={props => <MessageList channelId={props.match.params.channelId} />}

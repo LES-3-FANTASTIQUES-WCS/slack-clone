@@ -5,7 +5,7 @@ import ToggleBtn from '../components/Header/ToggleBtn';
 import { HeaderWrapper, ChannelStyle } from '../components/styles/Header';
 import { LogUser } from './Header/LogUser';
 
-class TheHeader extends Component {
+class MainHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -36,4 +36,4 @@ class TheHeader extends Component {
   }
 }
 
-export default TheHeader;
+export default MainHeader;
