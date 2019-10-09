@@ -50,7 +50,7 @@ class Channels extends React.Component {
     const isShow = this.state.showMore;
 
     return (
-      this.state.isVisible && (
+      this.props.isOpen && (
         <ChannelWrapper>
           <Sidebar
             as={Menu}
@@ -58,7 +58,7 @@ class Channels extends React.Component {
             icon="labeled"
             inverted
             vertical
-            visible='true'
+            visible={this.props.isOpen}
           >
             <HeaderChannelList>
               <Menu.Item>

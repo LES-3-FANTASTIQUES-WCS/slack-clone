@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
 import SearchBar from '../components/Header/SearchBar';
-import { Segment, Grid, Header } from 'semantic-ui-react';
-import ToggleBtn from '../components/Header/ToggleBtn';
+import {
+  Segment,
+  Grid,
+  Header,
+  Responsive,
+  Button,
+  Image,
+} from 'semantic-ui-react';
 import { HeaderWrapper, ChannelStyle } from '../components/styles/Header';
 import { LogUser } from './Header/LogUser';
+import Logo from '../assert/logo.svg';
+import { ToggleBtnStyle } from './styles/Header';
 
 class MainHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     return (
       <HeaderWrapper>
         <Segment style={{ margin: '0rem ' }}>
           <Grid columns="equal">
-            <ToggleBtn />
+            <ToggleBtnStyle>
+              <Responsive as={Header} maxWidth={768}>
+                <Button onClick={this.props.toggleSidebar} />
+              </Responsive>
+              <Responsive as={Header} minWidth={768}>
+                <a
+                  onClick=""
+                  href="https://fr.reactjs.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image size="mini" src={Logo} />
+                </a>
+              </Responsive>
+            </ToggleBtnStyle>
 
             <Grid.Column>
               <ChannelStyle>
-                <Header textAlign="center">#{this.state.channelStyle}</Header>
+                <Header textAlign="center">#{this.props.channelStyle}</Header>
               </ChannelStyle>
             </Grid.Column>
 
