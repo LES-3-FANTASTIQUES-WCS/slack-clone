@@ -14,15 +14,15 @@ const getChannels = async () => {
 };
 
 const getChannelByName = async name => {
-  const channel = await pool.query('SELECT * FROM channel WHERE name = $1', [
+  const result = await pool.query('SELECT * FROM channel WHERE name = $1', [
     name,
   ]);
 
-  return channel.rows[0];
+  return result.rows[0];
 };
 
-const createChannel = name => {
-  pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
+const createChannel = async name => {
+  await pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
 };
 
 const getMessagesByChannel = async channelId => {
