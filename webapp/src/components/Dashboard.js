@@ -1,27 +1,20 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import Channels from './Channels';
-import { TeamWrapper } from './styles/Teams';
-import MainHeader from './Header';
-import MessageList from './MessageList';
-import SendMessage from './SendMessage';
+import Channels from './Channels/Channels';
+import Header from './Header';
+import MessagesView from './containers/MessagesView';
 import AppLayout from './styles/AppLayout';
 
 export default () => (
   <AppLayout>
-    <TeamWrapper>Teams</TeamWrapper>
-    <Channels
-      teamName="Team name"
-      userName="Username"
-      channels={[{ id: 1, name: 'general' }, { id: 2, name: 'random' }]}
-      users={[{ id: 1, name: 'slackbot' }, { id: 2, name: 'user1' }]}
-    />
-    <MainHeader channelName="general" />
+    <Channels />
+    <Header channelName="general" />
     <Route
       path="/channels/:channelId/messages"
-      render={props => <MessageList channelId={props.match.params.channelId} />}
+      render={props => (
+        <MessagesView channelId={props.match.params.channelId} />
+      )}
     />
-    <SendMessage />
   </AppLayout>
 );
