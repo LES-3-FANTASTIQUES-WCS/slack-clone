@@ -8,12 +8,11 @@ const ChannelWrapper = styled.div`
 `;
 
 const HeaderChannelList = styled.div`
-  position: '-webkit-sticky';
-  position: 'sticky';
-  top: '0';
-  backgroundcolor: '#1b1c1d';
-  zindex: 1;
-  height: '50px';
+  position: sticky;
+  top: 0;
+  background-color: #1b1c1d;
+  z-index: 1;
+  height: 50px;
 `;
 
 export { ChannelWrapper, HeaderChannelList };
