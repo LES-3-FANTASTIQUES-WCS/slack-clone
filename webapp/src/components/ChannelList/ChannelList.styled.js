@@ -14,9 +14,11 @@ const ChannelListWrapper = styled.div`
   position: fixed;
   width: ${props => (props.isOpen ? '80%' : '0%')};
   overflow: hidden;
-  transition: 0.1s width ease-in-out;
+  transition: 0.2s width ease-in-out;
 
-  @media screen and (min-width: ${widescreenMinimumWidth}) {
+  white-space: nowrap;
+
+  @media screen and (min-width: ${widescreenMinimumWidth}px) {
     position: initial;
     width: 100%;
   }
@@ -33,7 +35,7 @@ const CloseButton = styled(Button)`
   position: absolute;
   right: 8px;
 
-  @media screen and (min-width: ${widescreenMinimumWidth}) {
+  @media screen and (min-width: ${widescreenMinimumWidth}px) {
     display: none;
   }
 `;
