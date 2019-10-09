@@ -99,12 +99,17 @@ class AddModal extends React.Component {
                     className="form-control"
                     value={this.state.name}
                     onChange={this.handleName}
+                    pattern="^(?!\s*$|\s).*$"
                   />
                   <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
                 </Form.Field>
                 <Form.Field>
                   <label>Présentation de la chaîne</label>
-                  <input value={this.state.text} onChange={this.handleText} />
+                  <input
+                    value={this.state.text}
+                    onChange={this.handleText}
+                    pattern="^(?!\s*$|\s).*$"
+                  />
                   <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
                 </Form.Field>
                 <Form.Field
