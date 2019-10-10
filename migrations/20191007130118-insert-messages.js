@@ -17,8 +17,8 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db) {
   return db.runSql(`INSERT INTO message (text, channel_id, user_id) VALUES
     ('Channel1_Message2', 1, 2),
-    ('Channel1_Message2', 1, 1)
-    ('Channel2_Message1', 2, 2)
+    ('Channel1_Message2', 1, 1),
+    ('Channel2_Message1', 2, 2),
     ('Channel2_Message2', 2, 1)
   `);
 };
