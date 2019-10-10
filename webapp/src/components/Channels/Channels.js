@@ -7,6 +7,7 @@ import {
   ItemChannel,
   ChannelWrapper,
   SidebarTitle,
+  ButtonClose,
 } from '../styles/Channels';
 import SearchBar from '../../components/Header/SearchBar';
 
@@ -17,9 +18,13 @@ class Channels extends React.Component {
       channels: [],
       isMobileScreen: false,
       showMore: false,
-      activeItem: true
+      activeItem: true,
     };
   }
+
+  selectChannelActive = id => {
+    this.setState({ activeItem: id });
+  };
 
   componentDidMount() {
     window.addEventListener('resize', this.getMobileScreen.bind(this));
@@ -45,10 +50,11 @@ class Channels extends React.Component {
 
   showMore = () => this.setState({ showMore: !this.state.showMore });
 
-  sendChannelActive = channelName => {
+  sendChannelActive = (channelName, id) => {
     this.props.getChannelActive(channelName);
     this.state.isMobileScreen && this.props.toggleSidebar();
-    this.setState({activeItem : !this.state.activeItem});
+    this.setState({ activeItem: !this.state.activeItem });
+    this.selectChannelActive(id);
   };
 
   render() {
@@ -67,21 +73,14 @@ class Channels extends React.Component {
             style={{ overflowX: 'hidden' }}
           >
             {this.state.isMobileScreen && (
-              <button
-                style={{
-                  backgroundColor: '#1B1C1D',
-                  border: 'none',
-                  marginLeft: '16em',
-                  marginTop: '0.5em',
-                }}
-              >
+              <ButtonClose>
                 <Icon
                   name="close"
                   onClick={this.props.toggleSidebar}
                   style={{ fontSize: '1.5em' }}
                   inverted
                 />
-              </button>
+              </ButtonClose>
             )}
 
             <HeaderChannelList>
@@ -100,42 +99,29 @@ class Channels extends React.Component {
             </HeaderChannelList>
 
             <div style={{ zIndex: 0 }}>
-              {this.state.channels.slice(0, 5).map(channels =>
-                this.state.isMobileScreen ? (
-                  <ItemChannel
-                    onClick={() => this.sendChannelActive(channels.name)}
-                    key={channels.id}
-                  >
-                    # {channels.name}
-                  </ItemChannel>
-                ) : (
-                  <ItemChannel
-                    active={this.state.activeItem}
-                    onClick={() => this.sendChannelActive(channels.name)}
-                    key={channels.id}
-                  >
-                    # {channels.name}
-                  </ItemChannel>
-                )
-              )}
+              {this.state.channels.slice(0, 5).map(channels => (
+                <ItemChannel
+                  active={this.state.activeItem === channels.id}
+                  onClick={() =>
+                    this.sendChannelActive(channels.name, channels.id)
+                  }
+                  key={channels.id}
+                >
+                  # {channels.name}
+                </ItemChannel>
+              ))}
               {isShow &&
-                this.state.channels.slice(5).map(channels =>
-                  this.state.isMobileScreen ? (
-                    <ItemChannel
-                      onClick={() => this.sendChannelActive(channels.name)}
-                      key={channels.id}
-                    >
-                      # {channels.name}
-                    </ItemChannel>
-                  ) : (
-                    <ItemChannel
-                      onClick={() => this.sendChannelActive(channels.name)}
-                      key={channels.id}
-                    >
-                      # {channels.name}
-                    </ItemChannel>
-                  )
-                )}
+                this.state.channels.slice(5).map(channels => (
+                  <ItemChannel
+                    active={this.state.activeItem === channels.id}
+                    onClick={() =>
+                      this.sendChannelActive(channels.name, channels.id)
+                    }
+                    key={channels.id}
+                  >
+                    # {channels.name}
+                  </ItemChannel>
+                ))}
 
               {this.state.channels.length > 5 && (
                 <Menu.Item

@@ -35,4 +35,17 @@ const SidebarTitle = styled.h3`
   margin-left: 1em;
 `;
 
-export { ChannelWrapper, HeaderChannelList, ItemChannel, SidebarTitle };
+const ButtonClose = styled.button`
+  background-color: #1b1c1d;
+  border: none;
+  margin-left: 16em;
+  margin-top: 0.5em;
+`;
+
+export {
+  ChannelWrapper,
+  HeaderChannelList,
+  ItemChannel,
+  SidebarTitle,
+  ButtonClose,
+};
