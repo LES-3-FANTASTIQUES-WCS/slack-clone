@@ -17,6 +17,7 @@ class Channels extends React.Component {
       channels: [],
       isMobileScreen: false,
       showMore: false,
+      activeItem: true
     };
   }
 
@@ -47,6 +48,7 @@ class Channels extends React.Component {
   sendChannelActive = channelName => {
     this.props.getChannelActive(channelName);
     this.state.isMobileScreen && this.props.toggleSidebar();
+    this.setState({activeItem : !this.state.activeItem});
   };
 
   render() {
@@ -62,6 +64,7 @@ class Channels extends React.Component {
             inverted
             vertical
             visible={this.props.isOpen}
+            style={{ overflowX: 'hidden' }}
           >
             {this.state.isMobileScreen && (
               <button
@@ -101,15 +104,14 @@ class Channels extends React.Component {
                 this.state.isMobileScreen ? (
                   <ItemChannel
                     onClick={() => this.sendChannelActive(channels.name)}
-                    style={{ cursor: 'pointer' }}
                     key={channels.id}
                   >
                     # {channels.name}
                   </ItemChannel>
                 ) : (
                   <ItemChannel
+                    active={this.state.activeItem}
                     onClick={() => this.sendChannelActive(channels.name)}
-                    style={{ cursor: 'pointer' }}
                     key={channels.id}
                   >
                     # {channels.name}
@@ -121,7 +123,6 @@ class Channels extends React.Component {
                   this.state.isMobileScreen ? (
                     <ItemChannel
                       onClick={() => this.sendChannelActive(channels.name)}
-                      style={{ cursor: 'pointer' }}
                       key={channels.id}
                     >
                       # {channels.name}
@@ -129,7 +130,6 @@ class Channels extends React.Component {
                   ) : (
                     <ItemChannel
                       onClick={() => this.sendChannelActive(channels.name)}
-                      style={{ cursor: 'pointer' }}
                       key={channels.id}
                     >
                       # {channels.name}

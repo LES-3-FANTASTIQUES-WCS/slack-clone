@@ -9,7 +9,7 @@ import AppLayout from './styles/AppLayout';
 class Dashboard extends React.Component {
   state = {
     isOpen: true,
-    channelActive: '',
+    channelActive: 'general',
   };
 
   componentDidMount() {
