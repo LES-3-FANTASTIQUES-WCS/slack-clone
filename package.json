@@ -7,7 +7,8 @@
     "start": "node .",
     "start:watch": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "node migrate"
+    "migrate": "node migrate",
+    "build": "cd webapp && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
