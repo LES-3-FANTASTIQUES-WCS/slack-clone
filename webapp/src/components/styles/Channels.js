@@ -26,4 +26,10 @@ const ItemChannel = styled(Menu.Item)`
   }
 `;
 
-export { ChannelWrapper, HeaderChannelList, ItemChannel };
+const SidebarTitle = styled.h3`
+  text-align: 'left';
+  margin-bottom: '1.5em';
+  margin-left: '1em';
+`;
+
+export { ChannelWrapper, HeaderChannelList, ItemChannel, SidebarTitle };
