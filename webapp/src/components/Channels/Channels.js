@@ -6,21 +6,29 @@ import {
   HeaderChannelList,
   ItemChannel,
   ChannelWrapper,
+  SidebarTitle,
+  ButtonClose,
 } from '../styles/Channels';
+import SearchBar from '../../components/Header/SearchBar';
 
 class Channels extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       channels: [],
-      buttonDisplay: false,
+      isMobileScreen: false,
       showMore: false,
+      activeItem: true,
     };
   }
 
+  selectChannelActive = id => {
+    this.setState({ activeItem: id });
+  };
+
   componentDidMount() {
-    window.addEventListener('resize', this.displayButtonClose.bind(this));
-    this.displayButtonClose();
+    window.addEventListener('resize', this.getMobileScreen.bind(this));
+    this.getMobileScreen();
 
     this.getChannels();
   }
@@ -32,18 +40,22 @@ class Channels extends React.Component {
     this.setState({ channels });
   };
 
-  //hide sidebar
-  displayButtonClose() {
+  getMobileScreen() {
     if (window.innerWidth < 768) {
-      this.setState({ buttonDisplay: true });
+      this.setState({ isMobileScreen: true });
     } else {
-      this.setState({ buttonDisplay: false });
+      this.setState({ isMobileScreen: false });
     }
   }
 
-  showMore() {
-    this.setState({ showMore: !this.state.showMore });
-  }
+  showMore = () => this.setState({ showMore: !this.state.showMore });
+
+  sendChannelActive = (channelName, id) => {
+    this.props.getChannelActive(channelName);
+    this.state.isMobileScreen && this.props.toggleSidebar();
+    this.setState({ activeItem: !this.state.activeItem });
+    this.selectChannelActive(id);
+  };
 
   render() {
     const isShow = this.state.showMore;
@@ -58,23 +70,17 @@ class Channels extends React.Component {
             inverted
             vertical
             visible={this.props.isOpen}
+            style={{ overflowX: 'hidden' }}
           >
-            {this.state.buttonDisplay && (
-              <button
-                style={{
-                  backgroundColor: '#1B1C1D',
-                  border: 'none',
-                  marginLeft: '16em',
-                  marginTop: '0.5em',
-                }}
-              >
+            {this.state.isMobileScreen && (
+              <ButtonClose>
                 <Icon
                   name="close"
                   onClick={this.props.toggleSidebar}
                   style={{ fontSize: '1.5em' }}
                   inverted
                 />
-              </button>
+              </ButtonClose>
             )}
 
             <HeaderChannelList>
@@ -82,15 +88,7 @@ class Channels extends React.Component {
                 <Grid columns="two" divided>
                   <Grid.Row>
                     <Grid.Column>
-                      <h3
-                        style={{
-                          textAlign: 'left',
-                          marginBottom: '1.5em',
-                          marginLeft: '1em',
-                        }}
-                      >
-                        Channels
-                      </h3>
+                      <SidebarTitle>Channels</SidebarTitle>
                     </Grid.Column>
                     <Grid.Column>
                       <AddModal getChannels={this.getChannels} />
@@ -101,58 +99,43 @@ class Channels extends React.Component {
             </HeaderChannelList>
 
             <div style={{ zIndex: 0 }}>
-              {this.state.channels.slice(0, 5).map(channels =>
-                this.state.buttonDisplay ? (
-                  <ItemChannel
-                    onClick={this.props.toggleSidebar}
-                    style={{ cursor: 'pointer' }}
-                    key={channels.id}
-                    to={`/channels/${channels.id}/messages`}
-                  >
-                    # {channels.name}
-                  </ItemChannel>
-                ) : (
-                  <ItemChannel
-                    style={{ cursor: 'pointer' }}
-                    key={channels.id}
-                    to={`/channels/${channels.id}/messages`}
-                  >
-                    # {channels.name}
-                  </ItemChannel>
-                )
-              )}
+              {this.state.channels.slice(0, 5).map(channels => (
+                <ItemChannel
+                  active={this.state.activeItem === channels.id}
+                  onClick={() =>
+                    this.sendChannelActive(channels.name, channels.id)
+                  }
+                  key={channels.id}
+                >
+                  # {channels.name}
+                </ItemChannel>
+              ))}
               {isShow &&
-                this.state.channels.slice(5).map(channels =>
-                  this.state.buttonDisplay ? (
-                    <ItemChannel
-                      onClick={this.props.toggleSidebar}
-                      style={{ cursor: 'pointer' }}
-                      key={channels.id}
-                      to={`/channels/${channels.id}/messages`}
-                    >
-                      # {channels.name}
-                    </ItemChannel>
-                  ) : (
-                    <ItemChannel
-                      style={{ cursor: 'pointer' }}
-                      key={channels.id}
-                      to={`/channels/${channels.id}/messages`}
-                    >
-                      # {channels.name}
-                    </ItemChannel>
-                  )
-                )}
+                this.state.channels.slice(5).map(channels => (
+                  <ItemChannel
+                    active={this.state.activeItem === channels.id}
+                    onClick={() =>
+                      this.sendChannelActive(channels.name, channels.id)
+                    }
+                    key={channels.id}
+                  >
+                    # {channels.name}
+                  </ItemChannel>
+                ))}
 
               {this.state.channels.length > 5 && (
                 <Menu.Item
                   style={{ fontWeight: 'bold', cursor: 'pointer' }}
-                  onClick={() => this.showMore()}
+                  onClick={this.showMore}
                   active
                 >
                   {isShow ? 'Voir moins' : 'Voir plus'}
                 </Menu.Item>
               )}
             </div>
+            {this.state.isMobileScreen && (
+              <SearchBar style={{ marginTop: '5em' }} />
+            )}
           </Sidebar>
         </ChannelWrapper>
       )

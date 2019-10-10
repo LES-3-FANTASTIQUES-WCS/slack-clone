@@ -14,6 +14,21 @@ import Logo from '../assert/logo.svg';
 import { ToggleBtnStyle } from './styles/Header';
 
 class MainHeader extends Component {
+  state = {
+    isMobileScreen: false,
+  };
+  componentDidMount() {
+    window.addEventListener('resize', this.getMobileScreen.bind(this));
+    this.getMobileScreen();
+  }
+  getMobileScreen() {
+    if (window.innerWidth < 768) {
+      this.setState({ isMobileScreen: true });
+    } else {
+      this.setState({ isMobileScreen: false });
+    }
+  }
+
   render() {
     return (
       <HeaderWrapper>
@@ -21,31 +36,24 @@ class MainHeader extends Component {
           <Grid columns="equal">
             <ToggleBtnStyle>
               <Responsive as={Header} maxWidth={767}>
-                <Button onClick={this.props.toggleSidebar}>
-                Menu
-                </Button>
+                <Button onClick={this.props.toggleSidebar}>Menu</Button>
               </Responsive>
               <Responsive as={Header} minWidth={768}>
-                <a
-                  href="/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href="/" target="_blank" rel="noreferrer">
                   <Image size="mini" src={Logo} />
                 </a>
               </Responsive>
             </ToggleBtnStyle>
-
             <Grid.Column>
               <ChannelStyle>
-                <Header textAlign="center">#{this.props.channelStyle}</Header>
+                <Header textAlign="center">#{this.props.channelActive}</Header>
               </ChannelStyle>
             </Grid.Column>
-
-            <Grid.Column>
-              <SearchBar />
-            </Grid.Column>
-
+            {!this.state.isMobileScreen && (
+              <Grid.Column>
+                <SearchBar />
+              </Grid.Column>
+            )}
             <LogUser />
           </Grid>
         </Segment>

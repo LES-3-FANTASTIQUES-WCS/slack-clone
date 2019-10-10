@@ -8,13 +8,13 @@ import AppLayout from './styles/AppLayout';
 
 class Dashboard extends React.Component {
   state = {
-    isOpen: false,
+    isOpen: true,
+    channelActive: 'general',
   };
 
   componentDidMount() {
     //call function to hide sidebar
     window.addEventListener('resize', this.resize.bind(this));
-    this.resize();
   }
 
   //hide sidebar
@@ -30,11 +30,23 @@ class Dashboard extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
+  getChannelActive = channelName => {
+    this.setState({ channelActive: channelName });
+  };
+
   render() {
     return (
       <AppLayout>
-        <Channels isOpen={this.state.isOpen} toggleSidebar={this.toggleSidebar} />
-        <Header channelName="general" toggleSidebar={this.toggleSidebar} />
+        <Channels
+          isOpen={this.state.isOpen}
+          toggleSidebar={this.toggleSidebar}
+          getChannelActive={this.getChannelActive}
+        />
+        <Header
+          channelName="general"
+          toggleSidebar={this.toggleSidebar}
+          channelActive={this.state.channelActive}
+        />
         <Route
           path="/channels/:channelId/messages"
           render={props => (

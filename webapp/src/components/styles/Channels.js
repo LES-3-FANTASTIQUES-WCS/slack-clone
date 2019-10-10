@@ -11,19 +11,41 @@ const ChannelWrapper = styled.div`
 `;
 
 const HeaderChannelList = styled.div`
-  position: sticky;
+  position: tiny;
   top: 0;
-  background-color: #1b1c1d;
+  background-color: #4d4d4d;
   z-index: 1;
   height: 50px;
   margin-bottom: 1.2em;
-  width: 250px;
+  width: 264px;
 `;
 
 const ItemChannel = styled(Menu.Item)`
-  &&&:hover {
-    background-color: #4d4d4d;
+  &&& {
+    cursor: pointer;
+    :hover {
+      background-color: #4d4d4d;
+    }
   }
 `;
 
-export { ChannelWrapper, HeaderChannelList, ItemChannel };
+const SidebarTitle = styled.h3`
+  text-align: left;
+  margin-bottom: 1.5em;
+  margin-left: 1em;
+`;
+
+const ButtonClose = styled.button`
+  background-color: #1b1c1d;
+  border: none;
+  margin-left: 16em;
+  margin-top: 0.5em;
+`;
+
+export {
+  ChannelWrapper,
+  HeaderChannelList,
+  ItemChannel,
+  SidebarTitle,
+  ButtonClose,
+};

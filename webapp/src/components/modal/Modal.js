@@ -76,17 +76,17 @@ class AddModal extends React.Component {
         onClose={this.handleClose}
         style={{ zIndex: '4' }}
         trigger={
-          <button style={{ backgroundColor: '#1B1C1D', border: 'none' }}>
+          <button style={{ backgroundColor: '#4d4d4d', border: 'none' }}>
             {' '}
             <Icon
               onClick={this.handleOpen}
               style={{
-                marginLeft: '-3em',
                 fontSize: '1.5em',
+                marginLeft: '4em',
                 cursor: 'pointer',
               }}
               inverted
-              name="add"
+              name="add circle"
             />
           </button>
         }
