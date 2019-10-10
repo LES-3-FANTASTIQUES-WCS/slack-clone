@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 require('dotenv').config();
 
