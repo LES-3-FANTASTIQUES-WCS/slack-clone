@@ -70,65 +70,64 @@ class AddModal extends React.Component {
 
   render() {
     return (
-      <div style={{zIndex: '99'}}>
-        <Modal
-          size="tiny"
-          open={this.state.modalOpen}
-          onClose={this.handleClose}
-          trigger={
-            <button style={{ backgroundColor: '#1B1C1D', border: 'none' }}>
-              {' '}
-              <Icon
-                onClick={this.handleOpen}
-                style={{
-                  marginLeft: '-3em',
-                  fontSize: '1.5em',
-                  cursor: 'pointer',
-                }}
-                inverted
-                name="add"
-              />
-            </button>
-          }
-          closeIcon
-        >
-          <Modal.Header>Créer une chaîne de discussion</Modal.Header>
-          <Modal.Content>
-            <Modal.Description>
-              <Form onSubmit={() => this.addChannels(this.state.name)}>
-                <Form.Field>
-                  <label>Nom de la chaîne</label>
-                  <input
-                    className="form-control"
-                    value={this.state.name}
-                    onChange={this.handleNameChange}
-                    pattern="^(?!\s*$|\s).*$"
-                  />
-                  <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
-                </Form.Field>
-                <Form.Field>
-                  <label>Présentation de la chaîne</label>
-                  <input
-                    value={this.state.text}
-                    onChange={this.handleTextChange}
-                    pattern="^(?!\s*$|\s).*$"
-                  />
-                  <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
-                </Form.Field>
-                <Form.Field
-                  style={{ marginBottom: '1em' }}
-                  floated="right"
-                  type="submit"
-                  control={Button}
-                  primary
-                >
-                  Créer la chaîne
-                </Form.Field>
-              </Form>
-            </Modal.Description>
-          </Modal.Content>
-        </Modal>
-      </div>
+      <Modal
+        size="tiny"
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        style={{ zIndex: '4' }}
+        trigger={
+          <button style={{ backgroundColor: '#1B1C1D', border: 'none' }}>
+            {' '}
+            <Icon
+              onClick={this.handleOpen}
+              style={{
+                marginLeft: '-3em',
+                fontSize: '1.5em',
+                cursor: 'pointer',
+              }}
+              inverted
+              name="add"
+            />
+          </button>
+        }
+        closeIcon
+      >
+        <Modal.Header>Créer une chaîne de discussion</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Form onSubmit={() => this.addChannels(this.state.name)}>
+              <Form.Field>
+                <label>Nom de la chaîne</label>
+                <input
+                  className="form-control"
+                  value={this.state.name}
+                  onChange={this.handleNameChange}
+                  pattern="^(?!\s*$|\s).*$"
+                />
+                <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
+              </Form.Field>
+              <Form.Field>
+                <label>Présentation de la chaîne</label>
+                <input
+                  value={this.state.text}
+                  onChange={this.handleTextChange}
+                  pattern="^(?!\s*$|\s).*$"
+                />
+                <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
+              </Form.Field>
+              <Form.Field
+                style={{ marginBottom: '1em' }}
+                floated="right"
+                type="submit"
+                control={Button}
+                primary
+              >
+                Créer la chaîne
+              </Form.Field>
+            </Form>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
     );
   }
 }
