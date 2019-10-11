@@ -17,18 +17,19 @@ class Channels extends React.Component {
     this.state = {
       channels: [],
       isMobileScreen: false,
-      showMore: false,
+      shouldShowMore: false,
       activeItem: '',
+      numberOfVisibleChannelItems: 5,
     };
   }
-  
+
   selectChannelActive = id => {
     this.setState({ activeItem: id });
   };
-  
+
   componentDidMount() {
     const urlId = window.location.href.split('/')[4];
-    this.sendChannelActive('',urlId);
+    this.sendChannelActive('', urlId);
     this.getChannels();
     window.addEventListener('resize', this.getMobileScreen.bind(this));
     this.getMobileScreen();
@@ -49,7 +50,15 @@ class Channels extends React.Component {
     }
   }
 
-  showMore = () => this.setState({ showMore: !this.state.showMore });
+  showMore = () =>
+    this.setState({
+      numberOfVisibleChannelItems: this.state.numberOfVisibleChannelItems + 5,
+    });
+
+  showLess = () =>
+    this.setState({
+      numberOfVisibleChannelItems: this.state.numberOfVisibleChannelItems - 5,
+    });
 
   sendChannelActive = (channelName, id) => {
     this.props.getChannelActive(channelName);
@@ -59,9 +68,25 @@ class Channels extends React.Component {
     console.log('activeitem', this.state.activeItem);
   };
 
-  render() {
-    const isShow = this.state.showMore;
+  renderChannelItems = (startIndex, endIndex) => {
+    return this.state.channels.slice(startIndex, endIndex).map(channels => (
+      <Menu.Item
+        as={Link}
+        to={`/channels/${channels.id}/messages`}
+        active={this.state.activeItem === channels.id}
+        onClick={() => this.sendChannelActive(channels.name, channels.id)}
+        key={channels.id}
+      >
+        # {channels.name}
+      </Menu.Item>
+    ));
+  };
 
+  shouldShowShowMoreButton() {
+    return this.state.numberOfVisibleChannelItems < this.state.channels.length;
+  }
+
+  render() {
     return (
       this.props.isOpen && (
         <ChannelWrapper>
@@ -101,41 +126,21 @@ class Channels extends React.Component {
             </HeaderChannelList>
 
             <div style={{ zIndex: 0 }}>
-              {this.state.channels.slice(0, 5).map(channels => (
-                <Menu.Item
-                  as={Link}
-                  to={`/channels/${channels.id}/messages`}
-                  active={this.state.activeItem === channels.id}
-                  onClick={() =>
-                    this.sendChannelActive(channels.name, channels.id)
-                  }
-                  key={channels.id}
-                >
-                  # {channels.name}
-                </Menu.Item>
-              ))}
-              {isShow &&
-                this.state.channels.slice(5).map(channels => (
-                  <Menu.Item
-                    as={Link}
-                    to={`/channels/${channels.id}/messages`}
-                    active={this.state.activeItem === channels.id}
-                    onClick={() =>
-                      this.sendChannelActive(channels.name, channels.id)
-                    }
-                    key={channels.id}
-                  >
-                    # {channels.name}
-                  </Menu.Item>
-                ))}
-
+              {this.renderChannelItems(
+                0,
+                this.state.numberOfVisibleChannelItems
+              )}
               {this.state.channels.length > 5 && (
                 <Menu.Item
                   style={{ fontWeight: 'bold', cursor: 'pointer' }}
-                  onClick={this.showMore}
+                  onClick={
+                    this.shouldShowShowMoreButton()
+                      ? this.showMore
+                      : this.showLess
+                  }
                   active
                 >
-                  {isShow ? 'Voir moins' : 'Voir plus'}
+                  {this.shouldShowShowMoreButton() ? 'Voir plus' : 'Voir moins'}
                 </Menu.Item>
               )}
             </div>

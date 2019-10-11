@@ -6,7 +6,6 @@ import { SendMessageWrapper } from './styles/SendMessage';
 class SendMessage extends React.Component {
   state = {
     text: '',
-    userId: 1,
   };
 
   // For now, every new message is linked to first user id (userId = 1)
@@ -18,7 +17,7 @@ class SendMessage extends React.Component {
       body: JSON.stringify({
         channelId: this.props.channelId,
         text: this.state.text,
-        userId: this.state.userId,
+        userId: 1,
       }),
     });
 
@@ -31,8 +30,8 @@ class SendMessage extends React.Component {
 
   onChange = e => {
     const { name, value } = e.target;
-    // name = "email";
-    this.setState({ [name]: value });
+    // name = "text";
+    this.setState({ text: value });
   };
 
   render() {
