@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Modal } from 'semantic-ui-react';
 
 const ChannelWrapper = styled.div`
   z-index: 3;
@@ -32,9 +33,19 @@ const ButtonClose = styled.button`
   margin-top: 0.5em;
 `;
 
+const ModalWrapper = styled(Modal)`
+  @media screen and (min-width: 768px) {
+    margin-left: 25% !important;
+    margin-top: 15% !important;
+  }
+  height: 300px;
+  margin-top: 35% !important;
+`;
+
 export {
   ChannelWrapper,
   HeaderChannelList,
   SidebarTitle,
   ButtonClose,
+  ModalWrapper,
 };

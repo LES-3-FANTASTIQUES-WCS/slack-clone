@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Form, Icon } from 'semantic-ui-react';
+import {ModalWrapper} from '../styles/Channels';
 
 class AddModal extends React.Component {
   constructor(props) {
@@ -70,65 +71,65 @@ class AddModal extends React.Component {
 
   render() {
     return (
-      <Modal
-        centered
-        size="small"
-        open={this.state.modalOpen}
-        onClose={this.handleClose}
-        style={{ zIndex: '4' }}
-        trigger={
-          <button style={{ backgroundColor: '#4d4d4d', border: 'none' }}>
-            {' '}
-            <Icon
-              onClick={this.handleOpen}
-              style={{
-                fontSize: '1.5em',
-                marginLeft: '4em',
-                cursor: 'pointer',
-              }}
-              inverted
-              name="add circle"
-            />
-          </button>
-        }
-        closeIcon
-      >
-        <Modal.Header>Créer une chaîne de discussion</Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <Form onSubmit={() => this.addChannels(this.state.name)}>
-              <Form.Field>
-                <label>Nom de la chaîne</label>
-                <input
-                  className="form-control"
-                  value={this.state.name}
-                  onChange={this.handleNameChange}
-                  pattern="^(?!\s*$|\s).*$"
-                />
-                <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
-              </Form.Field>
-              <Form.Field>
-                <label>Présentation de la chaîne</label>
-                <input
-                  value={this.state.text}
-                  onChange={this.handleTextChange}
-                  pattern="^(?!\s*$|\s).*$"
-                />
-                <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
-              </Form.Field>
-              <Form.Field
-                style={{ marginBottom: '1em' }}
-                floated="right"
-                type="submit"
-                control={Button}
-                primary
-              >
-                Créer la chaîne
-              </Form.Field>
-            </Form>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
+        <ModalWrapper
+          centered
+          size="small"
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
+          style={{ zIndex: '4' }}
+          trigger={
+            <button style={{ backgroundColor: '#4d4d4d', border: 'none' }}>
+              {' '}
+              <Icon
+                onClick={this.handleOpen}
+                style={{
+                  fontSize: '1.5em',
+                  marginLeft: '4em',
+                  cursor: 'pointer',
+                }}
+                inverted
+                name="add circle"
+              />
+            </button>
+          }
+          closeIcon
+        >
+          <Modal.Header>Créer une chaîne de discussion</Modal.Header>
+          <Modal.Content>
+            <Modal.Description>
+              <Form onSubmit={() => this.addChannels(this.state.name)}>
+                <Form.Field>
+                  <label>Nom de la chaîne</label>
+                  <input
+                    className="form-control"
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
+                    pattern="^(?!\s*$|\s).*$"
+                  />
+                  <p style={{ color: '#A52A2A' }}>{this.state.nameError}</p>
+                </Form.Field>
+                <Form.Field>
+                  <label>Présentation de la chaîne</label>
+                  <input
+                    value={this.state.text}
+                    onChange={this.handleTextChange}
+                    pattern="^(?!\s*$|\s).*$"
+                  />
+                  <p style={{ color: '#A52A2A' }}>{this.state.textError}</p>
+                </Form.Field>
+                <Form.Field
+                  style={{ marginBottom: '1em' }}
+                  floated="right"
+                  type="submit"
+                  control={Button}
+                  primary
+                >
+                  Créer la chaîne
+                </Form.Field>
+              </Form>
+            </Modal.Description>
+          </Modal.Content>
+      </ModalWrapper>
     );
   }
 }
