@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, Sidebar, Grid, Icon } from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
 import {
   HeaderChannelList,
-  ItemChannel,
   ChannelWrapper,
   SidebarTitle,
   ButtonClose,
@@ -100,7 +100,9 @@ class Channels extends React.Component {
 
             <div style={{ zIndex: 0 }}>
               {this.state.channels.slice(0, 5).map(channels => (
-                <ItemChannel
+                <Menu.Item
+                  as={Link}
+                  to={`/channels/${channels.id}/messages`}
                   active={this.state.activeItem === channels.id}
                   onClick={() =>
                     this.sendChannelActive(channels.name, channels.id)
@@ -108,11 +110,13 @@ class Channels extends React.Component {
                   key={channels.id}
                 >
                   # {channels.name}
-                </ItemChannel>
+                </Menu.Item>
               ))}
               {isShow &&
                 this.state.channels.slice(5).map(channels => (
-                  <ItemChannel
+                  <Menu.Item
+                    as={Link}
+                    to={`/channels/${channels.id}/messages`}
                     active={this.state.activeItem === channels.id}
                     onClick={() =>
                       this.sendChannelActive(channels.name, channels.id)
@@ -120,7 +124,7 @@ class Channels extends React.Component {
                     key={channels.id}
                   >
                     # {channels.name}
-                  </ItemChannel>
+                  </Menu.Item>
                 ))}
 
               {this.state.channels.length > 5 && (
