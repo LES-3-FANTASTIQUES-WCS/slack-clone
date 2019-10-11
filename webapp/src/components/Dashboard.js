@@ -9,12 +9,13 @@ import AppLayout from './styles/AppLayout';
 class Dashboard extends React.Component {
   state = {
     isOpen: true,
-    channelActive: 'general',
+    channelActive: '',
   };
 
   componentDidMount() {
     //call function to hide sidebar
     window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
   }
 
   //hide sidebar

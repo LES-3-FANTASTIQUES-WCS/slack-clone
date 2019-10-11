@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Menu } from 'semantic-ui-react';
 
 const ChannelWrapper = styled.div`
   z-index: 3;
@@ -20,15 +19,6 @@ const HeaderChannelList = styled.div`
   width: 264px;
 `;
 
-const ItemChannel = styled(Menu.Item)`
-  &&& {
-    cursor: pointer;
-    :hover {
-      background-color: #4d4d4d;
-    }
-  }
-`;
-
 const SidebarTitle = styled.h3`
   text-align: left;
   margin-bottom: 1.5em;
@@ -45,7 +35,6 @@ const ButtonClose = styled.button`
 export {
   ChannelWrapper,
   HeaderChannelList,
-  ItemChannel,
   SidebarTitle,
   ButtonClose,
 };

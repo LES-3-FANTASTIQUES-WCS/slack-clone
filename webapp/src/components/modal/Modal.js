@@ -71,7 +71,8 @@ class AddModal extends React.Component {
   render() {
     return (
       <Modal
-        size="tiny"
+        centered
+        size="small"
         open={this.state.modalOpen}
         onClose={this.handleClose}
         style={{ zIndex: '4' }}

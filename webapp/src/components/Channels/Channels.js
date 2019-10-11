@@ -4,12 +4,12 @@ import { Menu, Sidebar, Grid, Icon } from 'semantic-ui-react';
 import AddModal from '../modal/Modal';
 import {
   HeaderChannelList,
-  ItemChannel,
   ChannelWrapper,
   SidebarTitle,
   ButtonClose,
 } from '../styles/Channels';
 import SearchBar from '../../components/Header/SearchBar';
+import { Link } from 'react-router-dom';
 
 class Channels extends React.Component {
   constructor(props) {
@@ -18,19 +18,20 @@ class Channels extends React.Component {
       channels: [],
       isMobileScreen: false,
       showMore: false,
-      activeItem: true,
+      activeItem: '',
     };
   }
-
+  
   selectChannelActive = id => {
     this.setState({ activeItem: id });
   };
-
+  
   componentDidMount() {
+    const urlId = window.location.href.split('/')[4];
+    this.sendChannelActive('',urlId);
+    this.getChannels();
     window.addEventListener('resize', this.getMobileScreen.bind(this));
     this.getMobileScreen();
-
-    this.getChannels();
   }
 
   //get channels from server
@@ -53,8 +54,9 @@ class Channels extends React.Component {
   sendChannelActive = (channelName, id) => {
     this.props.getChannelActive(channelName);
     this.state.isMobileScreen && this.props.toggleSidebar();
-    this.setState({ activeItem: !this.state.activeItem });
+    this.setState({ activeItem: id });
     this.selectChannelActive(id);
+    console.log('activeitem', this.state.activeItem);
   };
 
   render() {
@@ -100,7 +102,9 @@ class Channels extends React.Component {
 
             <div style={{ zIndex: 0 }}>
               {this.state.channels.slice(0, 5).map(channels => (
-                <ItemChannel
+                <Menu.Item
+                  as={Link}
+                  to={`/channels/${channels.id}/messages`}
                   active={this.state.activeItem === channels.id}
                   onClick={() =>
                     this.sendChannelActive(channels.name, channels.id)
@@ -108,11 +112,13 @@ class Channels extends React.Component {
                   key={channels.id}
                 >
                   # {channels.name}
-                </ItemChannel>
+                </Menu.Item>
               ))}
               {isShow &&
                 this.state.channels.slice(5).map(channels => (
-                  <ItemChannel
+                  <Menu.Item
+                    as={Link}
+                    to={`/channels/${channels.id}/messages`}
                     active={this.state.activeItem === channels.id}
                     onClick={() =>
                       this.sendChannelActive(channels.name, channels.id)
@@ -120,7 +126,7 @@ class Channels extends React.Component {
                     key={channels.id}
                   >
                     # {channels.name}
-                  </ItemChannel>
+                  </Menu.Item>
                 ))}
 
               {this.state.channels.length > 5 && (
