@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import Channels from './Channels/Channels';
+import Channels from './Channels';
 import Header from './Header';
 import MessagesView from './containers/MessagesView';
 import AppLayout from './styles/AppLayout';

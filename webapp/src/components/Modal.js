@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button, Form, Icon } from 'semantic-ui-react';
-import {ModalWrapper} from '../styles/Channels';
+import {ModalWrapper} from './styles/Channels';
 
 class AddModal extends React.Component {
   constructor(props) {

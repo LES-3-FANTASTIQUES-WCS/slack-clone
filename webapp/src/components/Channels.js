@@ -1,14 +1,14 @@
 import React from 'react';
 import { Menu, Sidebar, Grid, Icon } from 'semantic-ui-react';
 
-import AddModal from '../modal/Modal';
+import AddModal from './Modal';
 import {
   HeaderChannelList,
   ChannelWrapper,
   SidebarTitle,
   ButtonClose,
-} from '../styles/Channels';
-import SearchBar from '../../components/Header/SearchBar';
+} from './styles/Channels';
+import SearchBar from './Header/SearchBar';
 import { Link } from 'react-router-dom';
 
 class Channels extends React.Component {
