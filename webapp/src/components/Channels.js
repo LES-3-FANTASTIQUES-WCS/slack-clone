@@ -17,22 +17,17 @@ class Channels extends React.Component {
     this.state = {
       channels: [],
       isMobileScreen: false,
-      shouldShowMore: false,
-      activeItem: '',
+      activeItem: window.location.href.split('/')[4],
       numberOfVisibleChannelItems: 5,
     };
   }
 
-  selectChannelActive = id => {
-    this.setState({ activeItem: id });
-  };
-
   componentDidMount() {
-    const urlId = window.location.href.split('/')[4];
-    this.sendChannelActive('', urlId);
+    this.selectChannelActive(this.state.activeItem);
     this.getChannels();
     window.addEventListener('resize', this.getMobileScreen.bind(this));
     this.getMobileScreen();
+    this.sendChannelActive('', window.location.href.split('/')[4]);
   }
 
   //get channels from server
@@ -64,8 +59,10 @@ class Channels extends React.Component {
     this.props.getChannelActive(channelName);
     this.state.isMobileScreen && this.props.toggleSidebar();
     this.setState({ activeItem: id });
-    this.selectChannelActive(id);
-    console.log('activeitem', this.state.activeItem);
+  };
+
+  selectChannelActive = id => {
+    this.setState({ activeItem: id });
   };
 
   renderChannelItems = (startIndex, endIndex) => {

@@ -1,5 +1,6 @@
 const dataAccess = require('./data-access');
 const services = require('./services');
+// const auth = require('./authentification');
 
 const getChannels = async (_req, res) => {
   const channels = await dataAccess.getChannels();
@@ -30,9 +31,18 @@ const createMessage = async (req, res) => {
   return res.status(201).send('Message added');
 };
 
+// const login = async (req, res) => {
+//   const { username, password } = req.body;
+
+//   await auth.
+
+//   return res.status(201).send('User loged');
+// };
+
 module.exports = {
   getChannels,
   createChannel,
   getMessagesByChannelId,
   createMessage,
+  // login,
 };

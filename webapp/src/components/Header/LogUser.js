@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown, Image } from 'semantic-ui-react';
 import UserPic from '../../assert/logo.svg';
 import { LogUserStyle } from '../styles/Header';
+import LoginModal from '../LoginModal';
 
 const trigger = (
   <span>
@@ -24,6 +25,7 @@ const LogUser = () => {
         pointing="top left"
         icon={null}
       />
+      <LoginModal />
     </LogUserStyle>
   );
 };

@@ -17,7 +17,7 @@ const HeaderChannelList = styled.div`
   z-index: 1;
   height: 50px;
   margin-bottom: 1.2em;
-  width: 264px;
+  width: 250px;
 `;
 
 const SidebarTitle = styled.h3`

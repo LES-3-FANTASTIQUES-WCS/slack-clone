@@ -29,7 +29,7 @@ class SendMessage extends React.Component {
   };
 
   onChange = e => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     // name = "text";
     this.setState({ text: value });
   };
