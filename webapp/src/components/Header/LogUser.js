@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, Image } from 'semantic-ui-react';
-import UserPic from '../../assert/logo.svg';
+import UserPic from '../../assets/logo.svg';
 import { LogUserStyle } from '../styles/Header';
 
 const trigger = (

@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { HeaderWrapper, ChannelStyle } from '../components/styles/Header';
 import { LogUser } from './Header/LogUser';
-import Logo from '../assert/logo.svg';
+import Logo from '../assets/logo.svg';
 import { ToggleBtnStyle } from './styles/Header';
 
 class MainHeader extends Component {

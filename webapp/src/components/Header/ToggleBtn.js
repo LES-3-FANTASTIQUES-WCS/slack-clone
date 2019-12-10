@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from '../../assert/logo.svg';
+import Logo from '../../assets/logo.svg';
 import { Responsive, Button, Image, Header } from 'semantic-ui-react';
 import { ToggleBtnStyle } from '../styles/Header';
 
