@@ -74,7 +74,7 @@ function Signup() {
 
     setIsError(false);
 
-    fetch('/api/user/register', {
+    fetch('api/user/signup', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({
