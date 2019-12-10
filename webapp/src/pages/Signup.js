@@ -16,18 +16,18 @@ import {
 function Signup() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isUserNameError, setIsUserNameError] = useState(false);
+  const [isUsernameError, setIsUsernameError] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
 
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { setAuthTokens } = useAuth();
 
   const errorList = [];
 
-  if (isUserNameError) {
+  if (isUsernameError) {
     errorList.push('Username is required');
   }
 
@@ -46,11 +46,11 @@ function Signup() {
 
     let error = false;
 
-    if (userName === '') {
-      setIsUserNameError(true);
+    if (username === '') {
+      setIsUsernameError(true);
       error = true;
     } else {
-      setIsUserNameError(false);
+      setIsUsernameError(false);
     }
 
     if (emailIsValid) {
@@ -78,7 +78,7 @@ function Signup() {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({
-        userName,
+        username,
         email,
         password,
       }),
@@ -116,11 +116,11 @@ function Signup() {
                 iconPosition="left"
                 placeholder="Username"
                 name="username"
-                value={userName}
+                value={username}
                 onChange={e => {
-                  setUserName(e.target.value);
+                  setUsername(e.target.value);
                 }}
-                error={isUserNameError}
+                error={isUsernameError}
               />
 
               <Form.Input
@@ -167,7 +167,7 @@ function Signup() {
             <Link className="link" to="/login">
               Sign In
             </Link>
-            {isError || isUserNameError || isEmailError || isPasswordError ? (
+            {isError || isUsernameError || isEmailError || isPasswordError ? (
               <Message
                 error
                 header="There was some errors with your submission"
