@@ -16,6 +16,4 @@ router.post('/channels/:channelId/messages', controllers.createMessage);
 
 router.post('/user/signup', controllers.signupUser);
 
-router.post('/user/login', controllers.loginUser);
-
 module.exports = router;
