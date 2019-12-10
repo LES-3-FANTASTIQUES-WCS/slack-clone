@@ -1,5 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+
+import { useAuth } from '../context/auth';
 
 import {
   Button,
@@ -11,7 +13,41 @@ import {
   Container,
 } from 'semantic-ui-react';
 
-function Login() {
+function Login(props) {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { setAuthTokens } = useAuth();
+  const referer = props.location.state.referer || '/';
+
+  function postLogin() {
+    fetch('/api/user/login', {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(result => {
+        if (result.status === 200) {
+          setAuthTokens(result.data);
+          setLoggedIn(true);
+        } else {
+          setIsError(true);
+        }
+      })
+      .catch(e => {
+        setIsError(true);
+      });
+  }
+
+  if (isLoggedIn) {
+    return <Redirect to={referer} />;
+  }
+
   return (
     <Container>
       <Grid centered>
@@ -28,6 +64,11 @@ function Login() {
                 iconPosition="left"
                 placeholder="Email address"
                 name="email"
+                type="email"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
               />
 
               <Form.Input
@@ -35,11 +76,21 @@ function Login() {
                 icon="lock"
                 iconPosition="left"
                 placeholder="Password"
-                type="password"
                 name="password"
+                type="password"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
               />
 
-              <Button fluid size="large" color="violet" type="submit">
+              <Button
+                fluid
+                size="large"
+                color="violet"
+                type="submit"
+                onClick={postLogin}
+              >
                 Login
               </Button>
             </Form>
@@ -50,6 +101,14 @@ function Login() {
             <Link className="link" to="/signup">
               Sign Up
             </Link>
+            {isError && (
+              <Message negative>
+                <Message.Header>
+                  There was some errors with your submission
+                </Message.Header>
+                <p>The e-mail or password you submitted is invalid.</p>
+              </Message>
+            )}
           </Message>
         </Grid.Column>
       </Grid>
