@@ -30,9 +30,18 @@ const createMessage = async (req, res) => {
   return res.status(201).send('Message added');
 };
 
+const signupUser = async (req, res) => {
+  const { userName, email, password } = req.body;
+
+  await dataAccess.signupUser(userName, email, password);
+
+  return res.status(201).send('User Created');
+};
+
 module.exports = {
   getChannels,
   createChannel,
   getMessagesByChannelId,
   createMessage,
+  signupUser,
 };

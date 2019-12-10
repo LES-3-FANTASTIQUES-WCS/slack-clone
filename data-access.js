@@ -41,10 +41,18 @@ const createMessage = async (text, channelId, userId) => {
   );
 };
 
+const signupUser = async (userName, email, password) => {
+  await pool.query(
+    'INSERT INTO user (userName, email, password) VALUES($1, $2, $3)',
+    [userName, email, password]
+  );
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
   createChannel,
   getMessagesByChannel,
   createMessage,
+  signupUser,
 };
