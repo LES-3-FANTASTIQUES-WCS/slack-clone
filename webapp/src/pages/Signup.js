@@ -73,6 +73,7 @@ function Signup() {
     }
 
     setIsError(false);
+    console.log(error);
 
     fetch('api/user/signup', {
       headers: { 'Content-Type': 'application/json' },

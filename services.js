@@ -9,15 +9,25 @@ const createChannelAndGetId = async name => {
 };
 
 const hashUserPassword = async password => {
-  const hash = crypto
-    .createHash('sha256')
-    .update(password)
-    .digest('hex');
+  const salt = crypto.randomBytes(16).toString('hex');
 
-  return hash;
+  const hash = crypto
+    .pbkdf2Sync(password, salt, 10000, 512, 'sha512')
+    .toString('hex');
+
+  return { hash, salt };
+};
+
+const validateUserPassword = (inputPassword, dbSalt, dbHash) => {
+  const hashInput = crypto
+    .pbkdf2Sync(inputPassword, dbSalt, 10000, 512, 'sha512')
+    .toString('hex');
+
+  return hashInput === dbHash; // IF it returns true then they match
 };
 
 module.exports = {
   createChannelAndGetId,
   hashUserPassword,
+  validateUserPassword,
 };
