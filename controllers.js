@@ -31,9 +31,9 @@ const createMessage = async (req, res) => {
 };
 
 const signupUser = async (req, res) => {
-  const { userName, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  await dataAccess.signupUser(userName, email, password);
+  await dataAccess.signupUser(username, email, password);
 
   return res.status(201).send('User Created');
 };

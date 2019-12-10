@@ -41,10 +41,10 @@ const createMessage = async (text, channelId, userId) => {
   );
 };
 
-const signupUser = async (userName, email, password) => {
+const signupUser = async (username, email, password) => {
   await pool.query(
-    'INSERT INTO user (userName, email, password) VALUES($1, $2, $3)',
-    [userName, email, password]
+    'INSERT INTO user_account (username, email, password) VALUES($1, $2, $3)',
+    [username, email, password]
   );
 };
 
