@@ -19,7 +19,7 @@ exports.up = function(db) {
     id SERIAL PRIMARY KEY,
     username TEXT NOT NULL,
     email TEXT NOT NULL,
-    hash TEXT NOT NULL
+    hash TEXT NOT NULL,
     salt TEXT NOT NULL
   )`);
 };
