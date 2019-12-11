@@ -69,7 +69,11 @@ const login = async (req, res) => {
     process.env.TOKEN_SECRET
   );
 
-  return res.cookie('tokens', token).send(token);
+  return res
+    .cookie('tokens', token, {
+      expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+    })
+    .send(token);
 };
 
 module.exports = {

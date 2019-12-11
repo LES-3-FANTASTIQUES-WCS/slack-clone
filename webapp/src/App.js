@@ -14,7 +14,9 @@ function App(props) {
   const [authTokens, setAuthTokens] = useState();
 
   const setTokens = data => {
-    localStorage.setItem('tokens', JSON.stringify(data));
+    // const cookie = document.cookie;
+    localStorage.setItem('tokens', data);
+
     setAuthTokens(data);
   };
 

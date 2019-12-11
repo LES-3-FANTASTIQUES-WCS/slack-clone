@@ -24,16 +24,17 @@ function Login(props) {
 
   function postLogin() {
     fetch('/api/user/login', {
-      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
       body: JSON.stringify({
         email,
         password,
       }),
     })
-      .then(result => {
-        if (result.status === 200) {
-          setAuthTokens(result.data);
+      .then(response => {
+        if (response.status === 200) {
+          setAuthTokens(document.cookie);
           setLoggedIn(true);
         } else {
           setIsError(true);
