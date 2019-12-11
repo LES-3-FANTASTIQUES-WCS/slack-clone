@@ -41,10 +41,27 @@ const createMessage = async (text, channelId, userId) => {
   );
 };
 
+const createUser = async (username, password) => {
+  try {
+    await pool.query(
+      `INSERT INTO users (username, password) VALUES ($1, crypt($2, gen_salt('bf')))`,
+      [username, password]
+    );
+  } catch (error) {
+    // Postgres UNIQUE VIOLATION
+    if (error.code === '23505') {
+      throw new Error('Username is already taken.');
+    }
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
   createChannel,
   getMessagesByChannel,
   createMessage,
+  createUser,
 };

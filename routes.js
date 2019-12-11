@@ -14,4 +14,6 @@ router.get('/channels/:channelId/messages', controllers.getMessagesByChannelId);
 
 router.post('/channels/:channelId/messages', controllers.createMessage);
 
+router.post('/users', controllers.createUser);
+
 module.exports = router;

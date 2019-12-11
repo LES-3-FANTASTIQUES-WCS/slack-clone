@@ -1,11 +1,12 @@
 import React from 'react';
 
 import Dashboard from './components/Dashboard';
+import SignupForm from './components/SignupForm';
 
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      <SignupForm />
     </div>
   );
 }
