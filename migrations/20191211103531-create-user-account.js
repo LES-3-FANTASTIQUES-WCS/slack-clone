@@ -15,15 +15,17 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`CREATE TABLE users(
+  return db.runSql(`CREATE TABLE user_account(
     id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    hash TEXT NOT NULL
+    salt TEXT NOT NULL
   )`);
 };
 
 exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS users`);
+  return null;
 };
 
 exports._meta = {
