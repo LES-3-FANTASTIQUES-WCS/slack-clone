@@ -51,10 +51,19 @@ const createUser = async (req, res) => {
   return res.sendStatus(201);
 };
 
+const createSession = async (req, res) => {
+  const { username, password } = req.body;
+  const userId = await dataAccess.getVerifiedUserId(username, password);
+  const sessionId = await dataAccess.createSession(userId);
+  res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+  return res.sendStatus(201);
+};
+
 module.exports = {
   getChannels,
   createChannel,
   getMessagesByChannelId,
   createMessage,
   createUser,
+  createSession,
 };

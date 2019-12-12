@@ -59,6 +59,22 @@ const createUser = async (username, password) => {
   }
 };
 
+const getVerifiedUserId = async (username, password) => {
+  const result = await pool.query(
+    'SELECT id FROM users WHERE username = $1 AND password = crypt($2, password)',
+    [username, password]
+  );
+  return result.rows[0].id;
+};
+
+const createSession = async userId => {
+  const result = await pool.query(
+    'INSERT INTO session (user_id) VALUES ($1) RETURNING session_id',
+    [userId]
+  );
+  return result.rows[0].session_id;
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
@@ -66,4 +82,6 @@ module.exports = {
   getMessagesByChannel,
   createMessage,
   createUser,
+  createSession,
+  getVerifiedUserId,
 };

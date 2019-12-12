@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const path = require('path');
@@ -10,6 +11,7 @@ const port = process.env.PORT || 8000;
 
 require('dotenv').config();
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
