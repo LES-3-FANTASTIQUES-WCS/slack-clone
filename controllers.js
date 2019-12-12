@@ -43,6 +43,9 @@ const createUser = async (req, res) => {
     const password = getCleanPassword(req.body.password);
     await dataAccess.createUser(username, password);
   } catch (error) {
+    if (error.isUnknown) {
+      return res.sendStatus(500);
+    }
     return res.status(400).send({ errorMessage: error.message });
   }
   return res.sendStatus(201);

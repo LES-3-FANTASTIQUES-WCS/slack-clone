@@ -1,6 +1,8 @@
 const pg = require('pg');
 require('dotenv').config();
 
+const { UnknownError } = require('./utils');
+
 const databaseUrl = process.env.DATABASE_URL;
 
 const pool = new pg.Pool({
@@ -53,7 +55,7 @@ const createUser = async (username, password) => {
       throw new Error('Username is already taken.');
     }
     console.log(error);
-    throw new Error(error.message);
+    throw new UnknownError();
   }
 };
 
