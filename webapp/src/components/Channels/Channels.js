@@ -102,7 +102,7 @@ class Channels extends React.Component {
               {this.state.channels.slice(0, 5).map(channels => (
                 <Menu.Item
                   as={Link}
-                  to={`/channels/${channels.id}/messages`}
+                  to={`/dashboard/channels/${channels.id}/messages`}
                   active={this.state.activeItem === channels.id}
                   onClick={() =>
                     this.sendChannelActive(channels.name, channels.id)
@@ -116,7 +116,7 @@ class Channels extends React.Component {
                 this.state.channels.slice(5).map(channels => (
                   <Menu.Item
                     as={Link}
-                    to={`/channels/${channels.id}/messages`}
+                    to={`/dashboard/channels/${channels.id}/messages`}
                     active={this.state.activeItem === channels.id}
                     onClick={() =>
                       this.sendChannelActive(channels.name, channels.id)

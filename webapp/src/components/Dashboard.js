@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
+import { DASHBOARD_PATH } from '../constants';
 import Channels from './Channels/Channels';
 import Header from './Header';
 import MessagesView from './containers/MessagesView';
@@ -46,9 +47,10 @@ class Dashboard extends React.Component {
           channelName="general"
           toggleSidebar={this.toggleSidebar}
           channelActive={this.state.channelActive}
+          currentUser={this.props.currentUser}
         />
         <Route
-          path="/channels/:channelId/messages"
+          path={`${DASHBOARD_PATH}/channels/:channelId/messages`}
           render={props => (
             <MessagesView channelId={props.match.params.channelId} />
           )}

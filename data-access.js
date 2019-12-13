@@ -29,7 +29,11 @@ const createChannel = async name => {
 
 const getMessagesByChannel = async channelId => {
   const messages = await pool.query(
-    'SELECT * FROM message WHERE channel_id = $1 ORDER BY created_At ASC',
+    `SELECT * FROM message
+      JOIN users
+      ON message.user_id = users.id
+      WHERE message.channel_id = $1 
+      ORDER BY message.created_At ASC`,
     [channelId]
   );
 
@@ -54,7 +58,7 @@ const createUser = async (username, password) => {
     if (error.code === '23505') {
       throw new Error('Username is already taken.');
     }
-    console.log(error);
+    console.error(error);
     throw new UnknownError();
   }
 };
@@ -75,6 +79,23 @@ const createSession = async userId => {
   return result.rows[0].session_id;
 };
 
+const getUserFromSessionId = async sessionId => {
+  const result = await pool.query(
+    `
+    SELECT users.id AS id, username FROM users
+      JOIN session
+      ON session.user_id = users.id
+    WHERE session.session_id = $1
+    `,
+    [sessionId]
+  );
+  const user = result.rows[0];
+  if (!user) {
+    throw new Error('User is not authenticated.');
+  }
+  return user;
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
@@ -84,4 +105,5 @@ module.exports = {
   createUser,
   createSession,
   getVerifiedUserId,
+  getUserFromSessionId,
 };

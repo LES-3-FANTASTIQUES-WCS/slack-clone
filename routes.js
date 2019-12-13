@@ -18,4 +18,6 @@ router.post('/users', controllers.createUser);
 
 router.post('/sessions', controllers.createSession);
 
+router.get('/whoami', controllers.getCurrentUser);
+
 module.exports = router;

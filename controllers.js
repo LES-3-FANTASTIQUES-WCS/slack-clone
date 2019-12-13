@@ -1,7 +1,7 @@
 const dataAccess = require('./data-access');
 const services = require('./services');
 
-const getChannels = async (_req, res) => {
+const getChannels = async (req, res) => {
   const channels = await dataAccess.getChannels();
   return res.status(200).json({ channels });
 };
@@ -23,9 +23,9 @@ const getMessagesByChannelId = async (req, res) => {
 };
 
 const createMessage = async (req, res) => {
-  const { text, channelId, userId } = req.body;
-
-  await dataAccess.createMessage(text, channelId, userId);
+  const { text, channelId } = req.body;
+  const { user } = req;
+  await dataAccess.createMessage(text, channelId, user.id);
 
   return res.status(201).send('Message added');
 };
@@ -59,6 +59,14 @@ const createSession = async (req, res) => {
   return res.sendStatus(201);
 };
 
+const getCurrentUser = async (req, res) => {
+  const { user } = req;
+  if (user) {
+    return res.status(200).send(user);
+  }
+  return res.sendStatus(401);
+};
+
 module.exports = {
   getChannels,
   createChannel,
@@ -66,4 +74,5 @@ module.exports = {
   createMessage,
   createUser,
   createSession,
+  getCurrentUser,
 };

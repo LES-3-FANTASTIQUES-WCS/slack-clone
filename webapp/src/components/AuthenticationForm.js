@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-const AuthenticationForm = () => {
-  const [shouldShowSigninForm, setShouldShowSigninForm] = useState(true);
+const AuthenticationForm = ({ onUserSignedIn }) => {
+  const [isInSigninMode, setIsInSigninMode] = useState(true);
 
   const submit = async event => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const username = formData.get('username');
     const password = formData.get('password');
-    const url = shouldShowSigninForm ? '/api/sessions' : '/api/users';
+    const url = isInSigninMode ? '/api/sessions' : '/api/users';
     const response = await fetch(url, {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -18,15 +18,17 @@ const AuthenticationForm = () => {
       }),
     });
     if (response.ok) {
-      setShouldShowSigninForm(true);
-    } else {
-      console.log('res error');
+      if (isInSigninMode) {
+        onUserSignedIn();
+      } else {
+        setIsInSigninMode(true);
+      }
     }
   };
 
   return (
     <>
-      <h1>{shouldShowSigninForm ? 'Connexion' : 'Inscription'}</h1>
+      <h1>{isInSigninMode ? 'Connexion' : 'Inscription'}</h1>
       <form onSubmit={submit}>
         <label>
           Nom d'utilisateur :
@@ -37,15 +39,15 @@ const AuthenticationForm = () => {
           <input type="password" name="password" />
         </label>
         <button type="submit">
-          {shouldShowSigninForm ? 'Se connecter' : "S'inscrire"}
+          {isInSigninMode ? 'Se connecter' : "S'inscrire"}
         </button>
       </form>
       <button
         onClick={() => {
-          setShouldShowSigninForm(!shouldShowSigninForm);
+          setIsInSigninMode(!isInSigninMode);
         }}
       >
-        {shouldShowSigninForm ? "S'inscrire" : 'Se connecter'}
+        {isInSigninMode ? "S'inscrire" : 'Se connecter'}
       </button>
     </>
   );

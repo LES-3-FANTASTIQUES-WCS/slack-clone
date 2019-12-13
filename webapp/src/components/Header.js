@@ -54,7 +54,7 @@ class MainHeader extends Component {
                 <SearchBar />
               </Grid.Column>
             )}
-            <LogUser />
+            <LogUser currentUser={this.props.currentUser} />
           </Grid>
         </Segment>
       </HeaderWrapper>
