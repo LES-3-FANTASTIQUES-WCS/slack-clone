@@ -59,6 +59,12 @@ const createSession = async (req, res) => {
   return res.sendStatus(201);
 };
 
+const deleteSession = async (req, res) => {
+  const { sessionId } = req.cookies;
+  await dataAccess.deleteSession(sessionId);
+  return res.sendStatus(200);
+};
+
 const getCurrentUser = async (req, res) => {
   const { user } = req;
   if (user) {
@@ -74,5 +80,6 @@ module.exports = {
   createMessage,
   createUser,
   createSession,
+  deleteSession,
   getCurrentUser,
 };

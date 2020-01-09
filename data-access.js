@@ -79,6 +79,10 @@ const createSession = async userId => {
   return result.rows[0].session_id;
 };
 
+const deleteSession = async sessionId => {
+  await pool.query('DELETE FROM session WHERE session_id = $1', [sessionId]);
+};
+
 const getUserFromSessionId = async sessionId => {
   const result = await pool.query(
     `
@@ -104,6 +108,7 @@ module.exports = {
   createMessage,
   createUser,
   createSession,
+  deleteSession,
   getVerifiedUserId,
   getUserFromSessionId,
 };

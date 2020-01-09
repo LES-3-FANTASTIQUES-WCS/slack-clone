@@ -43,4 +43,26 @@ describe('app', () => {
       });
     });
   });
+
+  describe('DELETE /api/sessions', () => {
+    describe('when user is authenticated', () => {
+      let response;
+
+      beforeEach(async () => {
+        dataAccess.deleteSession = jest.fn();
+        response = await agent
+          .delete('/api/sessions')
+          .set('Cookie', 'sessionId=AE7645-B120C7');
+      });
+
+      it('deletes session in database', () => {
+        expect(dataAccess.deleteSession).toHaveBeenCalledTimes(1);
+        expect(dataAccess.deleteSession).toHaveBeenCalledWith('AE7645-B120C7');
+      });
+
+      it('responds with status 200', () => {
+        expect(response.status).toEqual(200);
+      });
+    });
+  });
 });

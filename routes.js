@@ -11,6 +11,8 @@ router.post('/users', controllers.createUser);
 
 router.post('/sessions', controllers.createSession);
 
+router.delete('/sessions', controllers.deleteSession);
+
 router.get('/whoami', controllers.getCurrentUser);
 
 router.use(allowAuthenticatedUserOnly);
