@@ -15,4 +15,12 @@ const setUser = async (req, res, next) => {
   next();
 };
 
-module.exports = { setUser };
+const allowAuthenticatedUserOnly = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
+
+module.exports = { setUser, allowAuthenticatedUserOnly };
