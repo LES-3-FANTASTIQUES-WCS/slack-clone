@@ -1,5 +1,4 @@
 const pg = require('pg');
-
 const { UnknownError } = require('./utils');
 
 const databaseUrl = process.env.DATABASE_URL;
