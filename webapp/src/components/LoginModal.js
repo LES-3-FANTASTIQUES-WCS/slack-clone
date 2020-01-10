@@ -28,7 +28,20 @@ class LoginModal extends React.Component {
   }
 
   login() {
-    console.log('coucou');
+    fetch('/api/login', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+      }),
+    }).then(() => {
+      console.log(this.state.username, this.state.password);
+      this.setState({ username: '', password: '' });
+      // this.handleClose();
+    });
   }
 
   render() {
@@ -70,6 +83,7 @@ class LoginModal extends React.Component {
               <Form.Field>
                 <label>Mot de passe</label>
                 <input
+                  type="password"
                   className="form-control"
                   value={this.state.password}
                   onChange={this.handleChangePassword}

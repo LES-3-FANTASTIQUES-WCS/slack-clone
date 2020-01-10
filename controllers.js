@@ -31,18 +31,9 @@ const createMessage = async (req, res) => {
   return res.status(201).send('Message added');
 };
 
-// const login = async (req, res) => {
-//   const { username, password } = req.body;
-
-//   await auth.
-
-//   return res.status(201).send('User loged');
-// };
-
 module.exports = {
   getChannels,
   createChannel,
   getMessagesByChannelId,
   createMessage,
-  // login,
 };

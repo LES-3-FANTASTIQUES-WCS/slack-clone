@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable dot-notation */
+/* eslint-disable no-console */
 const express = require('express');
 
 const app = express();
