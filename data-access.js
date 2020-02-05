@@ -28,13 +28,10 @@ const createChannel = async name => {
 const getMessagesByChannel = async channelId => {
   const messages = await pool.query(
     `SELECT * FROM message
-      JOIN users
-      ON message.user_id = users.id
       WHERE message.channel_id = $1 
       ORDER BY message.created_At ASC`,
     [channelId]
   );
-
   return messages.rows;
 };
 
@@ -52,6 +49,7 @@ const createUser = async (username, password) => {
       [username, password]
     );
   } catch (error) {
+    console.log(error);
     // Postgres UNIQUE VIOLATION
     if (error.code === '23505') {
       throw new Error('Username is already taken.');

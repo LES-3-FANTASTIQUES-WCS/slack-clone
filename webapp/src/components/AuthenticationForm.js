@@ -5,7 +5,7 @@ import {
   InputName,
   InputPassword,
 } from './styles/AuthenticationForm';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Message } from 'semantic-ui-react';
 
 const AuthenticationForm = ({ onUserSignedIn }) => {
   const [isInSigninMode, setIsInSigninMode] = useState(true);
@@ -28,6 +28,7 @@ const AuthenticationForm = ({ onUserSignedIn }) => {
           password,
         }),
       });
+      console.log(response);
       if (response.ok) {
         if (isInSigninMode) {
           onUserSignedIn();
@@ -58,6 +59,7 @@ const AuthenticationForm = ({ onUserSignedIn }) => {
         </Container>
         <Container textAlign="center">
           <SignUpBtn
+            type="button"
             onClick={() => {
               setIsInSigninMode(!isInSigninMode);
             }}
@@ -75,11 +77,11 @@ const AuthenticationForm = ({ onUserSignedIn }) => {
         </Container>
       </form>
       {isSubmitted && password.length < 8 ? (
-        <div className="ui negative floating message">
+        <Message negative compact>
           <p className="text">
             Le mot de passe doit contenir au minimum 8 caractères.
           </p>
-        </div>
+        </Message>
       ) : (
         ''
       )}

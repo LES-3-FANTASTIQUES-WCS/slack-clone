@@ -15,7 +15,7 @@ class MessageList extends React.Component {
     return (
       <MessageWrapper>
         <Comment.Group>
-          <Button onClick={() => console.log('load more')}>Load More</Button>
+          <Button onClick={() => {}}>Load More</Button>
           {this.props.messages.map(message => (
             <Comment key={`${message.id}-message`}>
               <Comment.Avatar as="a" src="https://picsum.photos/200" />

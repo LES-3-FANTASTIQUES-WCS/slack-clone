@@ -4,6 +4,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { DASHBOARD_PATH } from './constants';
 import Dashboard from './components/Dashboard';
 import AuthenticationForm from './components/AuthenticationForm';
+import contextCurrentUser from '../src/context/ContextCurrentUser';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,23 +32,33 @@ function App() {
     return 'Loading…';
   }
 
+  const contextValue = {
+    currentUser,
+    setCurrentUser,
+    getCurrentUser,
+  };
+
   return (
     <div className="App">
-      <Route
-        path="/authentication"
-        component={() => <AuthenticationForm onUserSignedIn={getCurrentUser} />}
-      />
-      {currentUser ? (
-        <>
-          <Route
-            path={DASHBOARD_PATH}
-            component={() => <Dashboard currentUser={currentUser} />}
-          />
-          <Redirect to={DASHBOARD_PATH} />
-        </>
-      ) : (
-        <Redirect to="/authentication" />
-      )}
+      <contextCurrentUser.Provider value={contextValue}>
+        <Route
+          path="/authentication"
+          component={() => (
+            <AuthenticationForm onUserSignedIn={getCurrentUser} />
+          )}
+        />
+        {currentUser ? (
+          <>
+            <Route
+              path={DASHBOARD_PATH}
+              component={() => <Dashboard currentUser={currentUser} />}
+            />
+            <Redirect to={DASHBOARD_PATH} />
+          </>
+        ) : (
+          <Redirect to="/authentication" />
+        )}
+      </contextCurrentUser.Provider>
     </div>
   );
 }

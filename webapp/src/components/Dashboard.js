@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
           getChannelActive={this.getChannelActive}
         />
         <Header
-          channelName="general"
+          channelName={this.state.channelActive}
           toggleSidebar={this.toggleSidebar}
           channelActive={this.state.channelActive}
           currentUser={this.props.currentUser}
