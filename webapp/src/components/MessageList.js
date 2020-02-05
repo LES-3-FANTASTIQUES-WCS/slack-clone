@@ -8,6 +8,11 @@ import { MessageWrapper } from './styles/MessagesList';
 // TODO: on create, assign message to a user or define it as an anonymous message
 // TODO: use profile picture choosen by the user or define one as default
 class MessageList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     if (this.props.isLoading) {
       return <div>Loading…</div>;
@@ -15,9 +20,9 @@ class MessageList extends React.Component {
     return (
       <MessageWrapper>
         <Comment.Group>
-          <Button onClick={() => {}}>Load More</Button>
+          <Button onClick={() => this.props.loadMore(10)}>Load More</Button>
           {this.props.messages.map(message => (
-            <Comment key={`${message.id}-message`}>
+            <Comment key={`${message.text}-message`}>
               <Comment.Avatar as="a" src="https://picsum.photos/200" />
               <Comment.Content>
                 <Comment.Author as="a">{message.username}</Comment.Author>

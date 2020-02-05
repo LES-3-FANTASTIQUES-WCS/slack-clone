@@ -25,12 +25,15 @@ const createChannel = async name => {
   await pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
 };
 
-const getMessagesByChannel = async channelId => {
+const getMessagesByChannel = async (channelId, limit, offset) => {
   const messages = await pool.query(
     `SELECT * FROM message
+     JOIN users
+      ON message.user_id = users.id
       WHERE message.channel_id = $1 
-      ORDER BY message.created_At ASC`,
-    [channelId]
+      ORDER BY message.created_At ASC
+      LIMIT $2 OFFSET $3`,
+    [channelId, limit, offset]
   );
   return messages.rows;
 };

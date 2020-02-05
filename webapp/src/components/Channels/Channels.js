@@ -10,6 +10,7 @@ import {
   ButtonClose,
 } from '../styles/Channels';
 import SearchBar from '../../components/Header/SearchBar';
+import contextCurrentUser from '../../context/ContextCurrentUser';
 
 class Channels extends React.Component {
   constructor(props) {
@@ -49,8 +50,10 @@ class Channels extends React.Component {
   }
 
   showMore = () => this.setState({ showMore: !this.state.showMore });
+  static contextType = contextCurrentUser;
 
   sendChannelActive = (channelName, id) => {
+    this.context.setChannelActive(id);
     this.props.getChannelActive(channelName);
     this.state.isMobileScreen && this.props.toggleSidebar();
     this.setState({ activeItem: !this.state.activeItem });

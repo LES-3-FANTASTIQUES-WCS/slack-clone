@@ -22,7 +22,7 @@ class SendMessage extends React.Component {
       }),
     });
 
-    this.props.fetchMessages();
+    // this.props.fetchMessages();
 
     this.setState({
       text: '',

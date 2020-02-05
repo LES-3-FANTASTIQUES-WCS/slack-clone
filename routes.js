@@ -21,7 +21,10 @@ router.get('/channels', controllers.getChannels);
 
 router.post('/channels', controllers.createChannel);
 
-router.get('/channels/:channelId/messages', controllers.getMessagesByChannelId);
+router.get(
+  '/channels/:channelId/messages/:limit/:offset',
+  controllers.getMessagesByChannelId
+);
 
 router.post('/channels/:channelId/messages', controllers.createMessage);
 

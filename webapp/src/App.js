@@ -9,6 +9,7 @@ import contextCurrentUser from '../src/context/ContextCurrentUser';
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [channelActive, setChannelActive] = useState(null);
 
   const getCurrentUser = async () => {
     const response = await fetch('/api/whoami', {
@@ -36,6 +37,8 @@ function App() {
     currentUser,
     setCurrentUser,
     getCurrentUser,
+    channelActive,
+    setChannelActive,
   };
 
   return (
