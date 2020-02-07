@@ -27,7 +27,7 @@ const createChannel = async name => {
 
 const getMessagesByChannel = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT * FROM message
+    `SELECT message.id, text, message.created_at, channel_id, users.username FROM message
      JOIN users
       ON message.user_id = users.id
       WHERE message.channel_id = $1 
@@ -39,10 +39,11 @@ const getMessagesByChannel = async (channelId, limit, offset) => {
 };
 
 const createMessage = async (text, channelId, userId) => {
-  await pool.query(
+  const result = await pool.query(
     'INSERT INTO message (text, channel_id, user_id) VALUES($1, $2, $3)',
     [text, channelId, userId]
   );
+  return result.rows;
 };
 
 const createUser = async (username, password) => {
@@ -52,12 +53,10 @@ const createUser = async (username, password) => {
       [username, password]
     );
   } catch (error) {
-    console.log(error);
     // Postgres UNIQUE VIOLATION
     if (error.code === '23505') {
       throw new Error('Username is already taken.');
     }
-    console.error(error);
     throw new UnknownError();
   }
 };

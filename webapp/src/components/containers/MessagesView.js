@@ -11,11 +11,13 @@ class MessagesView extends React.Component {
     isLoading: true,
     messages: [],
     shouldRefetchMessages: false,
-    limit: 10,
+    limit: 5,
     offset: 0,
+    endMessageList: false,
   };
 
   static contextType = contextCurrentUser;
+
   fetchMessages = async () => {
     this.setState({
       shouldRefetchMessages: false,
@@ -27,33 +29,43 @@ class MessagesView extends React.Component {
 
     const { messages } = await response.json();
 
+    if (this.state.oldChannelId === '') {
+      this.setState({ oldChannelId: this.state.channelActive });
+    }
     if (
       this.state.offset === 0 &&
-      this.context.channelActive !== this.state.oldChannelId
+      this.context.channelActive !== this.state.channelId
     ) {
       this.setState({
         messages,
         isLoading: false,
-        oldChannelId: this.context.channelActive,
+        oldChannelId: JSON.stringify(this.context.channelActive),
       });
     } else {
       const newValue = this.state.messages.concat(messages);
       this.setState({
         messages: newValue,
         isLoading: false,
-        oldChannelId: this.context.channelActive,
+        oldChannelId: JSON.stringify(this.context.channelActive),
       });
+    }
+    if (messages.length === 0) {
+      console.log(0);
+      this.setState({ endMessageList: true });
+    } else {
+      console.log(1);
+      this.setState({ endMessageList: false });
     }
   };
 
   loadMore = value => {
-    this.setState({ offset: this.state.offset + value });
-    console.log(this.state.offset);
-    this.fetchMessages();
+    this.setState({
+      offset: this.state.offset + value,
+      shouldRefetchMessages: true,
+    });
   };
 
   componentDidMount() {
-    console.log(this.state.offset);
     this.fetchMessages();
   }
 
@@ -76,13 +88,14 @@ class MessagesView extends React.Component {
     return (
       <>
         <MessageList
+          endMessageList={this.state.endMessageList}
           loadMore={this.loadMore}
           isLoading={this.state.isLoading}
           messages={this.state.messages}
         />
         <SendMessage
           channelId={this.state.channelId}
-          // fetchMessages={this.fetchMessages}
+          fetchMessages={this.fetchMessages}
         />
       </>
     );
