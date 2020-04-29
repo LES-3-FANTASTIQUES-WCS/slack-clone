@@ -8,14 +8,20 @@ import MessagesView from './containers/MessagesView';
 import AppLayout from './styles/AppLayout';
 
 class Dashboard extends React.Component {
+  _isMounted = false;
   state = {
     isOpen: true,
     channelActive: 'general',
   };
 
   componentDidMount() {
+    this._isMounted = true;
     //call function to hide sidebar
     window.addEventListener('resize', this.resize.bind(this));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   //hide sidebar

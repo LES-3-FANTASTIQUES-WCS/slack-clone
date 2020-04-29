@@ -25,25 +25,56 @@ const createChannel = async name => {
   await pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
 };
 
-const getMessagesByChannel = async (channelId, limit, offset) => {
+const getMessagesByChannel = async (channelId, offset) => {
   const messages = await pool.query(
-    `SELECT message.id, text, message.created_at, channel_id, users.username FROM message
+    `SELECT message.id, text, message.created_at, channel_id, users.username, extra_info, COUNT(*) OVER() AS total_count  FROM message
      JOIN users
       ON message.user_id = users.id
       WHERE message.channel_id = $1 
-      ORDER BY message.created_At ASC
-      LIMIT $2 OFFSET $3`,
-    [channelId, limit, offset]
+      ORDER BY message.created_At DESC
+      LIMIT 10 OFFSET $2;`,
+    [channelId, offset]
   );
-  return messages.rows;
+  return {
+    messages: messages.rows,
+    totalCount: messages.rows.length ? messages.rows[0].total_count : 0,
+  };
 };
 
 const createMessage = async (text, channelId, userId) => {
   const result = await pool.query(
-    'INSERT INTO message (text, channel_id, user_id) VALUES($1, $2, $3)',
+    'INSERT INTO message (text, channel_id, user_id) VALUES($1, $2, $3)  RETURNING *',
     [text, channelId, userId]
   );
-  return result.rows;
+  return result.rows[0];
+};
+
+const getMessage = async messageId => {
+  const result = await pool.query(
+    `
+    SELECT
+      message.id, 
+      text, 
+      channel_id, 
+      message.created_at, 
+      users.username,
+      message.user_id,
+      extra_info
+    FROM message
+    JOIN users
+    ON users.id = message.user_id
+    WHERE message.id = $1
+  `,
+    [messageId]
+  );
+  if (!result.rows.length) {
+    return null;
+  }
+  return result.rows[0];
+};
+
+const deleteMessage = async id => {
+  await pool.query(`DELETE FROM message WHERE id = $1`, [id]);
 };
 
 const createUser = async (username, password) => {
@@ -104,9 +135,11 @@ module.exports = {
   createChannel,
   getMessagesByChannel,
   createMessage,
+  deleteMessage,
   createUser,
   createSession,
   deleteSession,
   getVerifiedUserId,
   getUserFromSessionId,
+  getMessage,
 };

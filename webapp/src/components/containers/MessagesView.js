@@ -11,12 +11,34 @@ class MessagesView extends React.Component {
     isLoading: true,
     messages: [],
     shouldRefetchMessages: false,
-    limit: 5,
-    offset: 0,
+    nextPage: 1,
     endMessageList: false,
   };
 
   static contextType = contextCurrentUser;
+
+  getDay = date => {
+    return date.substring(0, 10);
+  };
+
+  getDaysWithMessages = messages => {
+    const dayWithMassages = [];
+    messages.forEach(message => {
+      const messageDay = this.getDay(message.created_at);
+      const dayWithMessages = dayWithMassages.find(
+        item => item.day === messageDay
+      );
+      if (!dayWithMessages) {
+        dayWithMassages.push({
+          day: messageDay,
+          messages: [message],
+        });
+      } else {
+        dayWithMessages.messages.push(message);
+      }
+    });
+    return dayWithMassages;
+  };
 
   fetchMessages = async () => {
     this.setState({
@@ -24,45 +46,34 @@ class MessagesView extends React.Component {
     });
 
     const response = await fetch(
-      `/api/channels/${this.state.channelId}/messages/${this.state.limit}/${this.state.offset}`
+      `/api/channels/${this.state.channelId}/messages?page=${this.state.nextPage}`
     );
 
-    const { messages } = await response.json();
+    const { messages, nextPage } = await response.json();
 
     if (this.state.oldChannelId === '') {
       this.setState({ oldChannelId: this.state.channelActive });
     }
-    if (
-      this.state.offset === 0 &&
-      this.context.channelActive !== this.state.channelId
-    ) {
+    if (this.context.channelActive !== this.state.channelId) {
       this.setState({
-        messages,
+        messages: this.getDaysWithMessages(messages.messages),
         isLoading: false,
         oldChannelId: JSON.stringify(this.context.channelActive),
       });
     } else {
       const newValue = this.state.messages.concat(messages);
       this.setState({
-        messages: newValue,
+        messages: this.getDaysWithMessages(newValue),
         isLoading: false,
         oldChannelId: JSON.stringify(this.context.channelActive),
+        nextPage,
       });
     }
-    if (messages.length === 0) {
-      console.log(0);
-      this.setState({ endMessageList: true });
-    } else {
-      console.log(1);
-      this.setState({ endMessageList: false });
-    }
+    // this.setState({ endMessageList: messages.messages.length === 0 ? true : false });
   };
 
-  loadMore = value => {
-    this.setState({
-      offset: this.state.offset + value,
-      shouldRefetchMessages: true,
-    });
+  fetchPreviousMessages = () => {
+    this.fetchMessages();
   };
 
   componentDidMount() {
@@ -79,7 +90,8 @@ class MessagesView extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.shouldRefetchMessages) {
+    if (this.state.shouldRefetchMessages && this._isMounted) {
+      // this.setState({ shouldRefetchMessages: false });
       this.fetchMessages();
     }
   }
@@ -89,7 +101,7 @@ class MessagesView extends React.Component {
       <>
         <MessageList
           endMessageList={this.state.endMessageList}
-          loadMore={this.loadMore}
+          loadMore={this.fetchPreviousMessages}
           isLoading={this.state.isLoading}
           messages={this.state.messages}
         />

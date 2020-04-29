@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node .",
     "start:watch": "nodemon .",
-    "test": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest",
+    "test:data-access": "DATABASE_URL=postgres://slack_clone_test_user:woodcutters@localhost:5432/slack_clone_test jest data-access.spec.js --forceExit",
+    "test:app-e2e": "DATABASE_URL=postgres://slack_clone_test_user:woodcutters@localhost:5432/slack_clone_test jest app.e2e.spec.js --forceExit",
+    "test:server": "npm run test:app-e2e",
+    "test": "npm run test:server",
     "migrate": "db-migrate up --config db-migrate-config.js --env pg",
     "build-webapp": "cd webapp && npm install && npm run build",
     "build": "npm run migrate & npm run build-webapp"
@@ -15,17 +18,21 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "^1.4.4",
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",
     "dotenv": "^8.1.0",
     "eslint-plugin-flowtype": "^4.3.0",
     "eslint-plugin-react-hooks": "^2.1.2",
+    "events": "^3.1.0",
     "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
     "pg": "^7.12.1",
     "pg-native": "^3.0.0",
     "react-router-dom": "^5.1.2",
-    "styled-components": "^5.0.0-beta.9"
+    "styled-components": "^5.0.0-beta.9",
+    "util": "^0.12.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",

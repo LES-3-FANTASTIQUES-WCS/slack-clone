@@ -13,6 +13,7 @@ import SearchBar from '../../components/Header/SearchBar';
 import contextCurrentUser from '../../context/ContextCurrentUser';
 
 class Channels extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -28,10 +29,17 @@ class Channels extends React.Component {
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.getMobileScreen.bind(this));
-    this.getMobileScreen();
+    this._isMounted = true;
+    if (this._isMounted) {
+      window.addEventListener('resize', this.getMobileScreen.bind(this));
+      this.getMobileScreen();
 
-    this.getChannels();
+      this.getChannels();
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   //get channels from server
