@@ -32,8 +32,8 @@ const getExtraInfoFromMessage = async message => {
   return { ...scrapeExtraInfo(html), url }; // ... pour ajouter un nouvel attribut (url) à un objet déjà existant (scrapeExtraInfo(html)).
 };
 
-const createChannelAndGetId = async name => {
-  await dataAccess.createChannel(name);
+const createChannelAndGetId = async (name, userId) => {
+  await dataAccess.createChannel(name, userId);
   const channel = await dataAccess.getChannelByName(name);
 
   return channel.id;

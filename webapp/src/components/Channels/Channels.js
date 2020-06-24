@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Sidebar, Grid, Icon } from 'semantic-ui-react';
+import {
+  Menu,
+  Sidebar,
+  Grid,
+  Icon,
+  Modal,
+  Button,
+  Form,
+} from 'semantic-ui-react';
 
 import AddModal from '../modal/Modal';
 import {
@@ -18,10 +26,22 @@ class Channels extends React.Component {
     super(props);
     this.state = {
       channels: [],
+      users: [],
       isMobileScreen: false,
       showMore: false,
       activeItem: true,
+      isOpen: false,
+      openChannel: '',
+      idInput: '',
+      userAdmin: false,
+      showErrorMessage: false,
     };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ showErrorMessage: false });
+    this.setState({ idInput: event.target.value });
   }
 
   selectChannelActive = id => {
@@ -49,6 +69,19 @@ class Channels extends React.Component {
     this.setState({ channels });
   };
 
+  getUsers = async channelId => {
+    const res = await fetch(`/api/permissionOnChannel/${channelId}`);
+    const user = await res.json();
+    user.role === 'admin'
+      ? this.setState({ userAdmin: true })
+      : this.setState({ userAdmin: false });
+    this.setState({ openChannel: channelId });
+    const response = await fetch(`/api/users/${channelId}`);
+    const users = await response.json();
+    this.setState({ users });
+    this.setState({ isOpen: true });
+  };
+
   getMobileScreen() {
     if (window.innerWidth < 768) {
       this.setState({ isMobileScreen: true });
@@ -68,12 +101,103 @@ class Channels extends React.Component {
     this.selectChannelActive(id);
   };
 
+  handleClose = () => this.setState({ isOpen: false });
+
+  addUserToChannel = async () => {
+    const idUsers = [];
+    this.state.users.map(user => idUsers.push(user.id));
+    if (idUsers.includes(parseInt(this.state.idInput))) {
+      this.setState({ showErrorMessage: true });
+    } else {
+      this.setState({ showErrorMessage: false });
+      await fetch(`/api/addUser`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+          channelId: this.state.openChannel,
+          userId: this.state.idInput,
+        }),
+      });
+      this.setState({ idInput: '' });
+      document.getElementById('id_user').reset();
+      const getResponse = await fetch(`/api/users/${this.state.openChannel}`);
+      const users = await getResponse.json();
+      this.setState({ users });
+    }
+  };
+
+  removeUserFromChannel = async userId => {
+    await fetch(`/api/removePermission`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE',
+      body: JSON.stringify({
+        channelId: this.state.openChannel,
+        userId: userId,
+      }),
+    });
+    const getResponse = await fetch(`/api/users/${this.state.openChannel}`);
+    const users = await getResponse.json();
+    this.setState({ users });
+  };
+
   render() {
     const isShow = this.state.showMore;
 
     return (
       this.props.isOpen && (
         <ChannelWrapper>
+          <Modal
+            closeIcon
+            centered
+            size="small"
+            onClose={this.handleClose}
+            open={this.state.isOpen}
+          >
+            <Modal.Header>Utilisateurs sur ce channel</Modal.Header>
+            <Modal.Content image>
+              <Modal.Description>
+                {this.state.users &&
+                  this.state.users.map(user => (
+                    <p key={user.id}>
+                      {user.username}{' '}
+                      {this.state.userAdmin &&
+                        this.context.currentUser.id !== user.id && (
+                          <Icon
+                            style={{ cursor: 'pointer' }}
+                            name="trash"
+                            onClick={() => this.removeUserFromChannel(user.id)}
+                          />
+                        )}
+                    </p>
+                  ))}
+                {this.state.userAdmin && (
+                  <Form id="id_user" onSubmit={() => this.addUserToChannel()}>
+                    <Form.Field>
+                      <label>Ajouter un utilisateur</label>
+                      <input
+                        style={{ width: '150px' }}
+                        onChange={this.handleChange}
+                        value={this.idInput}
+                        type="text"
+                        id="id_user"
+                        placeholder="ID de l'utilisateur"
+                        label=""
+                      />
+                    </Form.Field>
+                    <Button color="green" type="submit">
+                      Ajouter
+                    </Button>
+                    {this.state.showErrorMessage && (
+                      <p style={{ color: 'red' }}>
+                        Cet utilisatuer est déjà présent sur ce channel.
+                      </p>
+                    )}
+                  </Form>
+                )}
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+
           <Sidebar
             as={Menu}
             animation="push"
@@ -120,7 +244,15 @@ class Channels extends React.Component {
                   }
                   key={channels.id}
                 >
-                  # {channels.name}
+                  <p>
+                    {' '}
+                    # {channels.name}{' '}
+                    <Icon
+                      name="user"
+                      onClick={() => this.getUsers(channels.id)}
+                      inverted
+                    />
+                  </p>
                 </Menu.Item>
               ))}
               {isShow &&
@@ -134,7 +266,15 @@ class Channels extends React.Component {
                     }
                     key={channels.id}
                   >
-                    # {channels.name}
+                    <p>
+                      {' '}
+                      # {channels.name}{' '}
+                      <Icon
+                        name="user"
+                        onClick={() => this.getUsers(channels.id)}
+                        inverted
+                      />
+                    </p>
                   </Menu.Item>
                 ))}
 

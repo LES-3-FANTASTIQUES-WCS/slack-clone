@@ -28,7 +28,6 @@ const AuthenticationForm = ({ onUserSignedIn }) => {
           password,
         }),
       });
-      console.log(response);
       if (response.ok) {
         if (isInSigninMode) {
           onUserSignedIn();

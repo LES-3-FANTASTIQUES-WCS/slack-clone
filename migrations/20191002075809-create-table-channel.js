@@ -14,7 +14,7 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
+exports.up = async function(db) {
   return db.runSql(`CREATE TABLE channel(
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
