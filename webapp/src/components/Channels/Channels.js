@@ -76,7 +76,7 @@ class Channels extends React.Component {
       ? this.setState({ userAdmin: true })
       : this.setState({ userAdmin: false });
     this.setState({ openChannel: channelId });
-    const response = await fetch(`/api/users/${channelId}`);
+    const response = await fetch(`/api/channels/${channelId}/users`);
     const users = await response.json();
     this.setState({ users });
     this.setState({ isOpen: true });

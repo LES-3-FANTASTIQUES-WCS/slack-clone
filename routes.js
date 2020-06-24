@@ -9,8 +9,6 @@ router.get('/', (req, res) => {
 
 router.post('/users', controllers.createUser);
 
-router.get('/users/:channelId', controllers.getUsersFromChannel);
-
 router.post('/addUser', controllers.addUserToChannel);
 
 router.get('/permissionOnChannel/:channelId', controllers.getPermission);
@@ -32,6 +30,8 @@ router.post('/channels', controllers.createChannel);
 router.get('/channels/:channelId/messages', controllers.getMessagesByChannelId);
 
 router.post('/channels/:channelId/messages', controllers.createMessage);
+
+router.get('/channels/:channelId/users/', controllers.getUsersFromChannel);
 
 router.delete('/messages/:id', controllers.deleteMessage);
 
