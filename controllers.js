@@ -5,14 +5,15 @@ const services = require('./services');
 const { EVENTS, eventEmitter } = require('./events');
 
 const getChannels = async (req, res) => {
-  const channels = await dataAccess.getChannels();
+  const { user } = req;
+  const channels = await dataAccess.getChannels(user.id);
   return res.status(200).json({ channels });
 };
 
 const createChannel = async (req, res) => {
   const { name } = req.body;
-
-  const channelId = await services.createChannelAndGetId(name);
+  const { user } = req;
+  const channelId = await services.createChannelAndGetId(name, user.id);
 
   return res.status(201).send(`Channel added with ID: ${channelId}`);
 };
@@ -53,7 +54,6 @@ const createMessage = async (req, res) => {
 const getMessage = async (req, res) => {
   const { id } = req.params;
   const response = await dataAccess.getMessage(id);
-  console.log(response);
   if (response === null) {
     res.sendStatus(403);
   } else {
@@ -111,7 +111,7 @@ const createSession = async (req, res) => {
 const deleteSession = async (req, res) => {
   const { sessionId } = req.cookies;
   await dataAccess.deleteSession(sessionId);
-  return res.sendStatus(200);
+  return res.sendStatus(204);
 };
 
 const getCurrentUser = async (req, res) => {
@@ -120,6 +120,35 @@ const getCurrentUser = async (req, res) => {
     return res.status(200).send(user);
   }
   return res.sendStatus(401);
+};
+
+const getUsersFromChannel = async (req, res) => {
+  const { channelId } = req.params;
+  const users = await dataAccess.getUsersFromChannel(channelId);
+  return res.status(200).send(users);
+};
+
+const addUserToChannel = async (req, res) => {
+  const { userId, channelId } = req.body;
+  const response = await dataAccess.addUserToChannel(
+    userId,
+    channelId,
+    'standard'
+  );
+  return res.status(201).send(response);
+};
+
+const getPermission = async (req, res) => {
+  const { channelId } = req.params;
+  const { user } = req;
+  const response = await dataAccess.getPermission(channelId, user.id);
+  return res.status(200).send(response);
+};
+
+const removePermission = async (req, res) => {
+  const { channelId, userId } = req.body;
+  const response = await dataAccess.removePermission(channelId, userId);
+  return res.status(204).send(response);
 };
 
 module.exports = {
@@ -133,4 +162,8 @@ module.exports = {
   deleteSession,
   getCurrentUser,
   getMessage,
+  getUsersFromChannel,
+  addUserToChannel,
+  getPermission,
+  removePermission,
 };

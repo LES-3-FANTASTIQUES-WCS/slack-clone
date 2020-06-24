@@ -9,6 +9,14 @@ router.get('/', (req, res) => {
 
 router.post('/users', controllers.createUser);
 
+router.get('/users/:channelId', controllers.getUsersFromChannel);
+
+router.post('/addUser', controllers.addUserToChannel);
+
+router.get('/permissionOnChannel/:channelId', controllers.getPermission);
+
+router.delete('/removePermission', controllers.removePermission);
+
 router.post('/sessions', controllers.createSession);
 
 router.delete('/sessions', controllers.deleteSession);

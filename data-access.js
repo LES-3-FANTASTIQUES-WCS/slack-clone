@@ -7,8 +7,11 @@ const pool = new pg.Pool({
   connectionString: databaseUrl,
 });
 
-const getChannels = async () => {
-  const channels = await pool.query('SELECT * FROM channel ORDER BY id ASC');
+const getChannels = async userId => {
+  const channels = await pool.query(
+    `SELECT * FROM channel INNER JOIN user_channel_permission ON user_channel_permission.channel_id = channel.id WHERE ($1 = user_channel_permission.user_id AND user_channel_permission.role = 'admin') OR (user_channel_permission.role = 'standard' AND $1 = user_channel_permission.user_id) ORDER BY id ASC`,
+    [userId]
+  );
 
   return channels.rows;
 };
@@ -21,8 +24,15 @@ const getChannelByName = async name => {
   return result.rows[0];
 };
 
-const createChannel = async name => {
-  await pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
+const createChannel = async (name, userId) => {
+  const insertChannel = await pool.query(
+    `INSERT INTO channel (name) VALUES ($1) RETURNING id`,
+    [name]
+  );
+  pool.query(`INSERT INTO user_channel_permission VALUES ($1, $2,'admin')`, [
+    userId,
+    insertChannel.rows[0].id,
+  ]);
 };
 
 const getMessagesByChannel = async (channelId, offset) => {
@@ -129,6 +139,38 @@ const getUserFromSessionId = async sessionId => {
   return user;
 };
 
+const getUsersFromChannel = async channelId => {
+  const users = await pool.query(
+    `SELECT id, username FROM users INNER JOIN user_channel_permission on user_channel_permission.channel_id = $1 WHERE id = user_channel_permission.user_id`,
+    [channelId]
+  );
+  return users.rows;
+};
+
+const addUserToChannel = async (userId, channelId, type) => {
+  const res = await pool.query(
+    `INSERT INTO user_channel_permission VALUES($1, $2, $3)`,
+    [userId, channelId, type]
+  );
+  return res;
+};
+
+const getPermission = async (channelId, userId) => {
+  const res = await pool.query(
+    `SELECT * FROM user_channel_permission WHERE channel_id = $1 AND user_id = $2`,
+    [channelId, userId]
+  );
+  return res.rows[0];
+};
+
+const removePermission = async (channelId, userId) => {
+  const res = await pool.query(
+    `DELETE FROM user_channel_permission WHERE channel_id = $1 AND user_id = $2`,
+    [channelId, userId]
+  );
+  return res;
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
@@ -142,4 +184,8 @@ module.exports = {
   getVerifiedUserId,
   getUserFromSessionId,
   getMessage,
+  getUsersFromChannel,
+  addUserToChannel,
+  getPermission,
+  removePermission,
 };
