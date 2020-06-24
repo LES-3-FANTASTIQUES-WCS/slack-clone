@@ -9,10 +9,11 @@ const dataAccess = require('./data-access');
 
 const agent = request.agent(app);
 
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
 const resetDatabase = async () => {
-  const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
   await pool.query(`
     DROP SCHEMA IF EXISTS public CASCADE;
     CREATE SCHEMA public;
@@ -33,13 +34,14 @@ describe('App', () => {
   let myMessage;
   let mySessionId;
   let messageFromUser2;
+  let myUserId;
 
   beforeEach(async () => {
     await resetDatabase();
     await migrateDatabase();
     await dataAccess.createUser('me', 'myPassword');
     await dataAccess.createUser('user2', 'myPassword');
-    const myUserId = await dataAccess.getVerifiedUserId('me', 'myPassword');
+    myUserId = await dataAccess.getVerifiedUserId('me', 'myPassword');
     const user2Id = await dataAccess.getVerifiedUserId('user2', 'myPassword');
     mySessionId = await dataAccess.createSession(myUserId);
     myMessage = await dataAccess.createMessage('myMessage', 1, myUserId);
@@ -48,6 +50,25 @@ describe('App', () => {
       1,
       user2Id
     );
+  });
+
+  describe('GET /api/channels', () => {
+    beforeEach(async () => {
+      await pool.query('INSERT INTO user_channel_permission VALUES ($1,1)', [
+        myUserId,
+      ]);
+    });
+    describe('when has permission for some channels', () => {
+      it('responds with 200 and list of channels with permission', async () => {
+        const response = await agent
+          .get('/api/channels')
+          .set('Cookie', `sessionId=${mySessionId}`);
+
+        expect(response.status).toEqual(200);
+        expect(response.body.channels.length).toEqual(1);
+        expect(response.body.channels[0].channel_id).toEqual(1);
+      });
+    });
   });
 
   describe('DELETE /api/messages', () => {

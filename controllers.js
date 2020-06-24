@@ -5,7 +5,8 @@ const services = require('./services');
 const { EVENTS, eventEmitter } = require('./events');
 
 const getChannels = async (req, res) => {
-  const channels = await dataAccess.getChannels();
+  const { user } = req;
+  const channels = await dataAccess.getChannels(user.id);
   return res.status(200).json({ channels });
 };
 
