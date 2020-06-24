@@ -83,8 +83,8 @@ describe('App', () => {
           .get(`/api/channels/${channelId}/users`)
           .set('Cookie', `sessionId=${mySessionId}`);
         expect(response.status).toEqual(200);
-        expect(response.body.users.length).toEqual(1);
-        expect(response.body.users[0].id).toEqual(myUserId);
+        expect(response.body.length).toEqual(1);
+        expect(response.body[0].id).toEqual(myUserId);
       });
     });
   });
