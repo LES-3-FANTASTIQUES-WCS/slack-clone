@@ -56,7 +56,6 @@ function App() {
               path={DASHBOARD_PATH}
               component={() => <Dashboard currentUser={currentUser} />}
             />
-            <Redirect to={DASHBOARD_PATH} />
           </>
         ) : (
           <Redirect to="/authentication" />

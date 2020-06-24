@@ -120,7 +120,9 @@ class Channels extends React.Component {
       });
       this.setState({ idInput: '' });
       document.getElementById('id_user').reset();
-      const getResponse = await fetch(`/api/users/${this.state.openChannel}`);
+      const getResponse = await fetch(
+        `/api/channels/${this.state.openChannel}/users`
+      );
       const users = await getResponse.json();
       this.setState({ users });
     }
@@ -135,7 +137,9 @@ class Channels extends React.Component {
         userId: userId,
       }),
     });
-    const getResponse = await fetch(`/api/users/${this.state.openChannel}`);
+    const getResponse = await fetch(
+      `/api/channels/${this.state.openChannel}/users`
+    );
     const users = await getResponse.json();
     this.setState({ users });
   };

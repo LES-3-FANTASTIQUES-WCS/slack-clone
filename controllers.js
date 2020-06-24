@@ -147,8 +147,8 @@ const getPermission = async (req, res) => {
 
 const removePermission = async (req, res) => {
   const { channelId, userId } = req.body;
-  const response = await dataAccess.removePermission(channelId, userId);
-  return res.status(204).send(response);
+  const users = await dataAccess.removePermission(channelId, userId);
+  return res.status(204).send(users);
 };
 
 module.exports = {

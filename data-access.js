@@ -9,7 +9,12 @@ const pool = new pg.Pool({
 
 const getChannels = async userId => {
   const channels = await pool.query(
-    `SELECT * FROM channel INNER JOIN user_channel_permission ON user_channel_permission.channel_id = channel.id WHERE ($1 = user_channel_permission.user_id AND user_channel_permission.role = 'admin') OR (user_channel_permission.role = 'standard' AND $1 = user_channel_permission.user_id) ORDER BY id ASC`,
+    `
+    SELECT * FROM channel
+    JOIN user_channel_permission
+    ON channel.id = user_channel_permission.channel_id
+    WHERE user_channel_permission.user_id = $1
+    ORDER BY id ASC`,
     [userId]
   );
 
