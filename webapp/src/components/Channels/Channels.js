@@ -18,6 +18,7 @@ class Channels extends React.Component {
     super(props);
     this.state = {
       channels: [],
+      users: [],
       isMobileScreen: false,
       showMore: false,
       activeItem: true,
@@ -66,6 +67,12 @@ class Channels extends React.Component {
     this.state.isMobileScreen && this.props.toggleSidebar();
     this.setState({ activeItem: !this.state.activeItem });
     this.selectChannelActive(id);
+  };
+
+  getUsersFromChannel = async channelId => {
+    const response = await fetch(`/api/channels/${channelId}/users`);
+    const users = await response.json();
+    this.setState({ users });
   };
 
   render() {
@@ -120,7 +127,15 @@ class Channels extends React.Component {
                   }
                   key={channels.id}
                 >
-                  # {channels.name}
+                  <p>
+                    {' '}
+                    # {channels.name}{' '}
+                    <Icon
+                      name="user"
+                      onClick={() => this.getUsersFromChannel(channels.id)}
+                      inverted
+                    />
+                  </p>
                 </Menu.Item>
               ))}
               {isShow &&
@@ -134,7 +149,15 @@ class Channels extends React.Component {
                     }
                     key={channels.id}
                   >
-                    # {channels.name}
+                    <p>
+                      {' '}
+                      # {channels.name}{' '}
+                      <Icon
+                        name="user"
+                        onClick={() => this.getUsersFromChannel(channels.id)}
+                        inverted
+                      />
+                    </p>
                   </Menu.Item>
                 ))}
 

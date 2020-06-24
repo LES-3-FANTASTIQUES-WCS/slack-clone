@@ -54,7 +54,6 @@ const createMessage = async (req, res) => {
 const getMessage = async (req, res) => {
   const { id } = req.params;
   const response = await dataAccess.getMessage(id);
-  console.log(response);
   if (response === null) {
     res.sendStatus(403);
   } else {
@@ -123,6 +122,12 @@ const getCurrentUser = async (req, res) => {
   return res.sendStatus(401);
 };
 
+const getUsersFromChannel = async (req, res) => {
+  const { channelId } = req.params;
+  const users = await dataAccess.getUsersFromChannel(channelId);
+  return res.status(200).json({ users });
+};
+
 module.exports = {
   getChannels,
   createChannel,
@@ -134,4 +139,5 @@ module.exports = {
   deleteSession,
   getCurrentUser,
   getMessage,
+  getUsersFromChannel,
 };

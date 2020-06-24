@@ -25,6 +25,8 @@ router.get('/channels/:channelId/messages', controllers.getMessagesByChannelId);
 
 router.post('/channels/:channelId/messages', controllers.createMessage);
 
+router.get('/channels/:channelId/users', controllers.getUsersFromChannel);
+
 router.delete('/messages/:id', controllers.deleteMessage);
 
 router.get('/message/:id', controllers.getMessage);

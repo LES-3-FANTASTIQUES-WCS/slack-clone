@@ -137,6 +137,17 @@ const getUserFromSessionId = async sessionId => {
   return user;
 };
 
+const getUsersFromChannel = async channelId => {
+  const response = await pool.query(
+    `SELECT id, username FROM users 
+    JOIN user_channel_permission 
+    ON users.id = user_channel_permission.user_id 
+    WHERE user_channel_permission.channel_id = $1`,
+    [channelId]
+  );
+  return response.rows;
+};
+
 module.exports = {
   getChannels,
   getChannelByName,
@@ -150,4 +161,5 @@ module.exports = {
   getVerifiedUserId,
   getUserFromSessionId,
   getMessage,
+  getUsersFromChannel,
 };

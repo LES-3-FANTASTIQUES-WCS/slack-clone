@@ -35,6 +35,8 @@ describe('App', () => {
   let mySessionId;
   let messageFromUser2;
   let myUserId;
+  let user2Id;
+  const channelId = 1;
 
   beforeEach(async () => {
     await resetDatabase();
@@ -42,22 +44,25 @@ describe('App', () => {
     await dataAccess.createUser('me', 'myPassword');
     await dataAccess.createUser('user2', 'myPassword');
     myUserId = await dataAccess.getVerifiedUserId('me', 'myPassword');
-    const user2Id = await dataAccess.getVerifiedUserId('user2', 'myPassword');
+    user2Id = await dataAccess.getVerifiedUserId('user2', 'myPassword');
     mySessionId = await dataAccess.createSession(myUserId);
-    myMessage = await dataAccess.createMessage('myMessage', 1, myUserId);
+    myMessage = await dataAccess.createMessage(
+      'myMessage',
+      channelId,
+      myUserId
+    );
     messageFromUser2 = await dataAccess.createMessage(
       'message from user2',
-      1,
+      channelId,
       user2Id
+    );
+    await pool.query(
+      `INSERT INTO user_channel_permission VALUES ($1, ${channelId})`,
+      [myUserId]
     );
   });
 
   describe('GET /api/channels', () => {
-    beforeEach(async () => {
-      await pool.query('INSERT INTO user_channel_permission VALUES ($1,1)', [
-        myUserId,
-      ]);
-    });
     describe('when has permission for some channels', () => {
       it('responds with 200 and list of channels with permission', async () => {
         const response = await agent
@@ -66,7 +71,20 @@ describe('App', () => {
 
         expect(response.status).toEqual(200);
         expect(response.body.channels.length).toEqual(1);
-        expect(response.body.channels[0].channel_id).toEqual(1);
+        expect(response.body.channels[0].channel_id).toEqual(channelId);
+      });
+    });
+  });
+
+  describe('GET /api/channels/:channelId/users', () => {
+    describe('when users have permission on channel', () => {
+      it('responds with 200 and list of users with permission', async () => {
+        const response = await agent
+          .get(`/api/channels/${channelId}/users`)
+          .set('Cookie', `sessionId=${mySessionId}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.users.length).toEqual(1);
+        expect(response.body.users[0].id).toEqual(myUserId);
       });
     });
   });
