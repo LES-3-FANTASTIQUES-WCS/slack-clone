@@ -13,6 +13,7 @@ class MessagesView extends React.Component {
     shouldRefetchMessages: false,
     nextPage: 1,
     endMessageList: false,
+    isUnauthorized: false,
   };
 
   static contextType = contextCurrentUser;
@@ -48,26 +49,29 @@ class MessagesView extends React.Component {
     const response = await fetch(
       `/api/channels/${this.state.channelId}/messages?page=${this.state.nextPage}`
     );
-
-    const { messages, nextPage } = await response.json();
-
-    if (this.state.oldChannelId === '') {
-      this.setState({ oldChannelId: this.state.channelActive });
-    }
-    if (this.context.channelActive !== this.state.channelId) {
-      this.setState({
-        messages: this.getDaysWithMessages(messages.messages),
-        isLoading: false,
-        oldChannelId: JSON.stringify(this.context.channelActive),
-      });
+    if (response.statusText === 'Unauthorized') {
+      this.setState({ isLoading: false, isUnauthorized: true });
     } else {
-      const newValue = this.state.messages.concat(messages);
-      this.setState({
-        messages: this.getDaysWithMessages(newValue),
-        isLoading: false,
-        oldChannelId: JSON.stringify(this.context.channelActive),
-        nextPage,
-      });
+      const { messages, nextPage } = await response.json();
+
+      if (this.state.oldChannelId === '') {
+        this.setState({ oldChannelId: this.state.channelActive });
+      }
+      if (this.context.channelActive !== this.state.channelId) {
+        this.setState({
+          messages: this.getDaysWithMessages(messages.messages),
+          isLoading: false,
+          oldChannelId: JSON.stringify(this.context.channelActive),
+        });
+      } else {
+        const newValue = this.state.messages.concat(messages);
+        this.setState({
+          messages: this.getDaysWithMessages(newValue),
+          isLoading: false,
+          oldChannelId: JSON.stringify(this.context.channelActive),
+          nextPage,
+        });
+      }
     }
     // this.setState({ endMessageList: messages.messages.length === 0 ? true : false });
   };
@@ -100,16 +104,24 @@ class MessagesView extends React.Component {
   render() {
     return (
       <>
-        <MessageList
-          endMessageList={this.state.endMessageList}
-          loadMore={this.fetchPreviousMessages}
-          isLoading={this.state.isLoading}
-          messages={this.state.messages}
-        />
-        <SendMessage
-          channelId={this.state.channelId}
-          fetchMessages={this.fetchMessages}
-        />
+        {this.state.isUnauthorized ? (
+          <p className="text-center">
+            Vous n'êtes pas autorisé à accéder à ce channel.
+          </p>
+        ) : (
+          <>
+            <MessageList
+              endMessageList={this.state.endMessageList}
+              loadMore={this.fetchPreviousMessages}
+              isLoading={this.state.isLoading}
+              messages={this.state.messages}
+            />
+            <SendMessage
+              channelId={this.state.channelId}
+              fetchMessages={this.fetchMessages}
+            />
+          </>
+        )}
       </>
     );
   }

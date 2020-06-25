@@ -23,4 +23,19 @@ const allowAuthenticatedUserOnly = (req, res, next) => {
   }
 };
 
-module.exports = { setUser, allowAuthenticatedUserOnly };
+const allowChannelPermission = async (req, res, next) => {
+  const { user } = req;
+  const { channelId } = req.params;
+  const permission = await dataAccess.getPermission(channelId, user.id);
+  if (permission) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
+
+module.exports = {
+  setUser,
+  allowAuthenticatedUserOnly,
+  allowChannelPermission,
+};
