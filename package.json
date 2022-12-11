@@ -20,7 +20,7 @@
     "dotenv": "^8.1.0",
     "eslint-plugin-flowtype": "^4.3.0",
     "eslint-plugin-react-hooks": "^2.1.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "pg": "^7.12.1",
     "pg-native": "^3.0.0",
     "react-router-dom": "^5.1.2",
